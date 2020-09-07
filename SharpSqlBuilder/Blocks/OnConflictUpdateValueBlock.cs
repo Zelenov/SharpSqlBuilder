@@ -14,10 +14,10 @@ namespace SharpSqlBuilder.Blocks
         public readonly ColumnEntity ColumnName;
         public readonly Operand Value;
 
-        public OnConflictUpdateValueBlock(DbMapItem dbMapItem)
+        public OnConflictUpdateValueBlock(SqlColumn sqlColumn)
         {
-            ColumnName = new ColumnEntity(dbMapItem ?? throw new ArgumentException(nameof(dbMapItem)));
-            Value = dbMapItem.Excluded();
+            ColumnName = new ColumnEntity(sqlColumn ?? throw new ArgumentException(nameof(sqlColumn)));
+            Value = sqlColumn.Excluded();
         }
 
         public override bool Present(SqlOptions sqlOptions) =>

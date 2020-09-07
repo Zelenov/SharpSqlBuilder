@@ -7,7 +7,7 @@ namespace SharpSqlBuilder.Operands
     {
         public override bool Present(SqlOptions sqlOptions) => true;
 
-        public static TableColumnOperand From(DbMapItem self) => new TableColumnOperand(self);
+        public static TableColumnOperand From(SqlColumn self) => new TableColumnOperand(self);
 
         public static SqlFilterOperand From(SqlFilterItem self) => new SqlFilterOperand(self);
 

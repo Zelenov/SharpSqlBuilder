@@ -14,10 +14,10 @@ namespace SharpSqlBuilder.Blocks
         public ColumnEntity ColumnName;
         public Operand PropertyName;
 
-        public UpdateColumnBlock(DbMapItem dbMapItem)
+        public UpdateColumnBlock(SqlColumn sqlColumn)
         {
-            ColumnName = new ColumnEntity(dbMapItem ?? throw new ArgumentException(nameof(dbMapItem)));
-            PropertyName = dbMapItem.Property();
+            ColumnName = new ColumnEntity(sqlColumn ?? throw new ArgumentException(nameof(sqlColumn)));
+            PropertyName = sqlColumn.Property();
         }
 
         public override bool Present(SqlOptions sqlOptions) =>

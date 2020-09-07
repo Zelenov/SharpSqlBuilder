@@ -7,17 +7,17 @@ using SharpSqlBuilder.Extensions;
 
 namespace SharpSqlBuilder.Maps
 {
-    public class PropertyDbMapItem : DbMapItem
+    public class PropertySqlColumn : SqlColumn
     {
-        public PropertyDbMapItem(PropertyInfo propertyInfo)
+        public PropertySqlColumn(PropertyInfo propertyInfo)
         {
             if (propertyInfo == null)
                 throw new ArgumentException(nameof(propertyInfo));
 
             var columnAttr = propertyInfo.GetAttribute<ColumnAttribute>();
-            var column = columnAttr?.Name;
+            var column = columnAttr?.Name ?? propertyInfo.Name;
 
-            ColumnName = column ?? throw new ArgumentException($"Property has no {nameof(ColumnAttribute)}");
+            ColumnName = column;
             PropertyName = propertyInfo.Name;
             PropertyInfo = propertyInfo;
 

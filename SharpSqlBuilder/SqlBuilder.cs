@@ -7,16 +7,16 @@ namespace SharpSqlBuilder
     {
         public static SqlSelectBuilder Select() => new SqlSelectBuilder();
 
-        public static SqlUpdateBuilder Update(DbMap dbMap) => new SqlUpdateBuilder(dbMap);
+        public static SqlUpdateBuilder Update(SqlTable sqlTable) => new SqlUpdateBuilder(sqlTable);
 
         public static class Insert
         {
-            public static SqlInsertBuilder Into(DbMap dbMap) => new SqlInsertBuilder(dbMap);
+            public static SqlInsertBuilder Into(SqlTable sqlTable) => new SqlInsertBuilder(sqlTable);
         }
 
         public static class Delete
         {
-            public static SqlDeleteBuilder From(DbMap dbMap) => new SqlDeleteBuilder(dbMap);
+            public static SqlDeleteBuilder From(SqlTable sqlTable) => new SqlDeleteBuilder(sqlTable);
         }
     }
 }

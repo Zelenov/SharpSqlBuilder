@@ -12,9 +12,9 @@ namespace SharpSqlBuilder.Blocks
     {
         public readonly TableEntity TableName;
 
-        public UpdateTableBlock(DbMap dbMap)
+        public UpdateTableBlock(SqlTable sqlTable)
         {
-            TableName = new TableEntity(dbMap ?? throw new ArgumentException(nameof(dbMap)));
+            TableName = new TableEntity(sqlTable ?? throw new ArgumentException(nameof(sqlTable)));
         }
 
         public override bool Present(SqlOptions sqlOptions) => TableName.Present(sqlOptions);

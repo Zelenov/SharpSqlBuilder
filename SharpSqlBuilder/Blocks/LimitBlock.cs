@@ -22,9 +22,9 @@ namespace SharpSqlBuilder.Blocks
         public override string BuildSql(SqlOptions sqlOptions)
         {
             string command;
-            switch (sqlOptions.Database)
+            switch (sqlOptions.DatabaseType)
             {
-                case SqlDatabase.MsSql:
+                case SqlDatabaseType.MsSql:
 
                     command = sqlOptions.Command("FETCH NEXT");
                     break;

@@ -14,14 +14,14 @@ namespace SharpSqlBuilder.Blocks
             var properties = string.Join($",{sqlOptions.NewLine()}{sqlOptions.Indent()}",
                 Entities.Select(e => e.BuildSql(sqlOptions)));
             string command;
-            switch (sqlOptions.Database)
+            switch (sqlOptions.DatabaseType)
             {
-                case SqlDatabase.Postgres:
-                case SqlDatabase.SqLite:
+                case SqlDatabaseType.Postgres:
+                case SqlDatabaseType.SqLite:
                     command = "DO UPDATE SET";
                     break;
-                case SqlDatabase.MySql:
-                case SqlDatabase.MariaDb:
+                case SqlDatabaseType.MySql:
+                case SqlDatabaseType.MariaDb:
                     command = "UPDATE";
                     break;
                 default: return null;

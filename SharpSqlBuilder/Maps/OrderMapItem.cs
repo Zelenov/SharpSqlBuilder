@@ -6,13 +6,13 @@
         {
         }
 
-        public OrderMapItem(DbMapItem prop, string orderProp)
+        public OrderMapItem(SqlColumn prop, string orderProp)
         {
             Prop = prop;
             OrderProp = orderProp;
         }
 
-        public DbMapItem Prop { get; set; }
+        public SqlColumn Prop { get; set; }
         public string OrderProp { get; set; }
     }
 }

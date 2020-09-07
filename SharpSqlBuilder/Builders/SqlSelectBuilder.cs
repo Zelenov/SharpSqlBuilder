@@ -37,12 +37,12 @@ namespace SharpSqlBuilder.Builders
         public override bool Present(SqlOptions sqlOptions) =>
             SelectValuesBlock.Present(sqlOptions) && FromTablesBlock.Present(sqlOptions);
 
-        public SqlSelectBuilder Values(params DbMap[] dbMaps)
+        public SqlSelectBuilder Values(params SqlTable[] dbMaps)
         {
             return Values(dbMaps?.SelectMany(dbMap => dbMap)) ?? throw new ArgumentException(nameof(dbMaps));
         }
 
-        public SqlSelectBuilder Values(IEnumerable<DbMapItem> dbMapItems)
+        public SqlSelectBuilder Values(IEnumerable<SqlColumn> dbMapItems)
         {
             SelectValuesBlock.AddRange(dbMapItems?.Select(m => new SelectColumnBlock(m)) ??
                 throw new ArgumentException(nameof(dbMapItems)));
@@ -58,38 +58,38 @@ namespace SharpSqlBuilder.Builders
             return this;
         }
 
-        public SqlSelectBuilder From(params DbMap[] dbMaps)
+        public SqlSelectBuilder From(params SqlTable[] dbMaps)
         {
             FromTablesBlock.AddRange(dbMaps.Select(dbMap => new TableEntity(dbMap)));
             CurrentPosition = SqlSelectPosition.From;
             return this;
         }
 
-        public SqlSelectBuilder InnerJoin(DbMap dbMap, Operator on = null)
+        public SqlSelectBuilder InnerJoin(SqlTable sqlTable, Operator on = null)
         {
-            JoinsBlock.Add(new JoinBlock(JoinType.Inner, dbMap, on));
+            JoinsBlock.Add(new JoinBlock(JoinType.Inner, sqlTable, on));
             CurrentPosition = SqlSelectPosition.Join;
             return this;
         }
 
 
-        public SqlSelectBuilder LeftJoin(DbMap dbMap, Operator on)
+        public SqlSelectBuilder LeftJoin(SqlTable sqlTable, Operator on)
         {
-            JoinsBlock.Add(new JoinBlock(JoinType.Left, dbMap, on));
+            JoinsBlock.Add(new JoinBlock(JoinType.Left, sqlTable, on));
             CurrentPosition = SqlSelectPosition.Join;
             return this;
         }
 
-        public SqlSelectBuilder FullOuterJoin(DbMap dbMap, Operator on)
+        public SqlSelectBuilder FullOuterJoin(SqlTable sqlTable, Operator on)
         {
-            JoinsBlock.Add(new JoinBlock(JoinType.FullOuter, dbMap, on));
+            JoinsBlock.Add(new JoinBlock(JoinType.FullOuter, sqlTable, on));
             CurrentPosition = SqlSelectPosition.Join;
             return this;
         }
 
-        public SqlSelectBuilder RightJoin(DbMap dbMap, Operator on)
+        public SqlSelectBuilder RightJoin(SqlTable sqlTable, Operator on)
         {
-            JoinsBlock.Add(new JoinBlock(JoinType.Right, dbMap, on));
+            JoinsBlock.Add(new JoinBlock(JoinType.Right, sqlTable, on));
             CurrentPosition = SqlSelectPosition.Join;
             return this;
         }

@@ -17,9 +17,9 @@ namespace SharpSqlBuilder.Operators
         {
             var left = LeftOperand.BuildSql(sqlOptions);
             var right = RightOperand.BuildSql(sqlOptions);
-            switch (sqlOptions.Database)
+            switch (sqlOptions.DatabaseType)
             {
-                case SqlDatabase.Postgres:
+                case SqlDatabaseType.Postgres:
                     return $"{left} = {sqlOptions.Command("ANY")}({right})";
                 default:
                     return $"{left} {sqlOptions.Command("IN")} ({right})";

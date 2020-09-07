@@ -12,7 +12,7 @@ namespace SharpSqlBuilder.Blocks
     {
         public readonly TableEntity TableEntity;
 
-        public DeleteFromBlock(DbMap dbMap) : this(new TableEntity(dbMap ?? throw new ArgumentException(nameof(dbMap))))
+        public DeleteFromBlock(SqlTable sqlTable) : this(new TableEntity(sqlTable ?? throw new ArgumentException(nameof(sqlTable))))
         {
         }
 

@@ -14,10 +14,10 @@ namespace SharpSqlBuilder.Blocks
         public readonly Operand TableColumn;
         public readonly OutputValueEntity Value;
 
-        public SelectColumnBlock(DbMapItem dbMapItem)
+        public SelectColumnBlock(SqlColumn sqlColumn)
         {
-            TableColumn = Operand.From(dbMapItem);
-            Value = new OutputValueEntity(dbMapItem);
+            TableColumn = Operand.From(sqlColumn);
+            Value = new OutputValueEntity(sqlColumn);
         }
 
         public SelectColumnBlock(Operand operand, OutputValueEntity value)

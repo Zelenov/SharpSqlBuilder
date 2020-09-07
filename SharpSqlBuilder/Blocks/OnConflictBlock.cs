@@ -13,14 +13,14 @@ namespace SharpSqlBuilder.Blocks
         {
             var keys = string.Join(", ", Entities.Select(e => e.BuildSql(sqlOptions)));
             string command;
-            switch (sqlOptions.Database)
+            switch (sqlOptions.DatabaseType)
             {
-                case SqlDatabase.Postgres:
-                case SqlDatabase.SqLite:
+                case SqlDatabaseType.Postgres:
+                case SqlDatabaseType.SqLite:
                     command = "ON CONFLICT";
                     return $"{command} ({keys})";
-                case SqlDatabase.MySql:
-                case SqlDatabase.MariaDb:
+                case SqlDatabaseType.MySql:
+                case SqlDatabaseType.MariaDb:
                     command = "ON DUPLICATE KEY";
                     return $"{command}";
                 default: return null;

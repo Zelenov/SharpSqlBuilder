@@ -10,13 +10,13 @@ namespace SharpSqlBuilder.Entities
     /// </summary>
     public class TableEntity : SqlBuilderEntity
     {
-        public TableEntity(DbMap dbMap)
+        public TableEntity(SqlTable sqlTable)
         {
-            if (dbMap == null)
-                throw new ArgumentException(nameof(dbMap));
+            if (sqlTable == null)
+                throw new ArgumentException(nameof(sqlTable));
 
-            Schema = dbMap.Schema;
-            TableName = dbMap.TableName;
+            Schema = sqlTable.Schema;
+            TableName = sqlTable.TableName;
         }
 
         public string Schema { get; set; }

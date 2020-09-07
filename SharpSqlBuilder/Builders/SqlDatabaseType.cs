@@ -1,6 +1,6 @@
 ﻿namespace SharpSqlBuilder.Builders
 {
-    public enum SqlDatabase
+    public enum SqlDatabaseType
     {
         Postgres,
         MsSql,

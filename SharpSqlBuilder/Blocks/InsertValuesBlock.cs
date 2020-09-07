@@ -7,7 +7,7 @@ namespace SharpSqlBuilder.Blocks
     /// <summary>
     /// <example>VALUES ..., ..., ...</example>
     /// </summary>
-    public class InsertPropertiesBlock : CollectionBlock<Operand>
+    public class InsertValuesBlock : CollectionBlock<Operand>
     {
         public override string BuildSql(SqlOptions sqlOptions)
         {

@@ -12,9 +12,9 @@ namespace SharpSqlBuilder.Operands
 
         public override string BuildSql(SqlOptions sqlOptions)
         {
-            switch (sqlOptions.Database)
+            switch (sqlOptions.DatabaseType)
             {
-                case SqlDatabase.MsSql:
+                case SqlDatabaseType.MsSql:
                     return "1";
                 default:
                     return sqlOptions.Command("TRUE");

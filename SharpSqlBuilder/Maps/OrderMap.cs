@@ -35,9 +35,9 @@ namespace SharpSqlBuilder.Maps
         }
 
 
-        public static OrderMap FromOrder<TOrder>(DbMap map) => FromOrder(map, typeof(TOrder));
+        public static OrderMap FromOrder<TOrder>(SqlTable map) => FromOrder(map, typeof(TOrder));
 
-        public static OrderMap FromOrder(DbMap map, Type orderType)
+        public static OrderMap FromOrder(SqlTable map, Type orderType)
         {
             var orderProps = OrderProps.GetOrAdd(orderType, o => o.GetProperties().ToDictionary(p => p.Name));
             var entityProps = map;

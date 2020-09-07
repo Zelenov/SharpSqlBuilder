@@ -15,10 +15,10 @@ namespace SharpSqlBuilder.Blocks
         public readonly JoinOnBlock OnBlock;
         public readonly TableEntity TableEntity;
 
-        public JoinBlock(JoinType joinType, DbMap dbMap, Operator on = null)
+        public JoinBlock(JoinType joinType, SqlTable sqlTable, Operator on = null)
         {
             JoinType = joinType;
-            TableEntity = dbMap != null ? new TableEntity(dbMap) : throw new ArgumentException(nameof(dbMap));
+            TableEntity = sqlTable != null ? new TableEntity(sqlTable) : throw new ArgumentException(nameof(sqlTable));
             OnBlock = on == null ? null : new JoinOnBlock(on);
         }
 

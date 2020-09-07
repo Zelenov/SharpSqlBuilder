@@ -14,9 +14,9 @@ namespace SharpSqlBuilder.Blocks
         public OrderDirection Direction;
         public TableColumnOperand OrderItemOperand;
 
-        public OrderBlock(DbMapItem dbMapItem, OrderDirection direction)
+        public OrderBlock(SqlColumn sqlColumn, OrderDirection direction)
         {
-            OrderItemOperand = new TableColumnOperand(dbMapItem ?? throw new ArgumentException(nameof(dbMapItem)));
+            OrderItemOperand = new TableColumnOperand(sqlColumn ?? throw new ArgumentException(nameof(sqlColumn)));
             Direction = direction;
         }
 

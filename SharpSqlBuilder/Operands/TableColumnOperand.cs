@@ -12,10 +12,10 @@ namespace SharpSqlBuilder.Operands
         public readonly string ColumnName;
         public readonly string TableName;
 
-        public TableColumnOperand(DbMapItem dbMapItem)
+        public TableColumnOperand(SqlColumn sqlColumn)
         {
-            TableName = dbMapItem.Parent.TableName;
-            ColumnName = dbMapItem.ColumnName;
+            TableName = sqlColumn.Parent.TableName;
+            ColumnName = sqlColumn.ColumnName;
         }
 
         public override string BuildSql(SqlOptions sqlOptions)

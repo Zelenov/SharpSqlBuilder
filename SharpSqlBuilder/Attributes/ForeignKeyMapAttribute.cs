@@ -6,11 +6,11 @@ namespace SharpSqlBuilder.Attributes
 {
     public class SqlDatabaseAttribute : Attribute
     {
-        public readonly SqlDatabase SqlDatabase;
+        public readonly SqlDatabaseType SqlDatabaseType;
 
-        public SqlDatabaseAttribute(SqlDatabase sqlDatabase)
+        public SqlDatabaseAttribute(SqlDatabaseType sqlDatabaseType)
         {
-            SqlDatabase = sqlDatabase;
+            SqlDatabaseType = sqlDatabaseType;
         }
     }
 

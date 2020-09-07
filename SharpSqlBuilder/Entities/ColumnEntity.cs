@@ -11,9 +11,9 @@ namespace SharpSqlBuilder.Entities
     {
         public readonly string ColumnName;
 
-        public ColumnEntity(DbMapItem dbMapItem)
+        public ColumnEntity(SqlColumn sqlColumn)
         {
-            ColumnName = dbMapItem?.ColumnName ?? throw new ArgumentException(nameof(dbMapItem));
+            ColumnName = sqlColumn?.ColumnName ?? throw new ArgumentException(nameof(sqlColumn));
         }
 
         public override bool Present(SqlOptions sqlOptions) => true;

@@ -13,19 +13,19 @@ namespace SharpSqlBuilder.Operands
     {
         public readonly string ColumnName;
 
-        public ExcludedOperand(DbMapItem dbMapItem)
+        public ExcludedOperand(SqlColumn sqlColumn)
         {
-            ColumnName = dbMapItem?.ColumnName ?? throw new ArgumentException(nameof(dbMapItem));
+            ColumnName = sqlColumn?.ColumnName ?? throw new ArgumentException(nameof(sqlColumn));
         }
 
         public override string BuildSql(SqlOptions sqlOptions)
         {
             var column = ColumnName;
             string command;
-            switch (sqlOptions.Database)
+            switch (sqlOptions.DatabaseType)
             {
-                case SqlDatabase.MySql:
-                case SqlDatabase.MariaDb:
+                case SqlDatabaseType.MySql:
+                case SqlDatabaseType.MariaDb:
 
                     command = sqlOptions.Command("VALUES");
                     return $"{command}({column})";
