@@ -10,8 +10,8 @@ namespace SharpSqlBuilder.Blocks
     {
         public override string BuildSql(SqlOptions sqlOptions)
         {
-            var columns = string.Join($",{sqlOptions.NewLine()}", Entities.Select(e => e.BuildSql(sqlOptions)));
-            return $"{sqlOptions.Command("SELECT")}{sqlOptions.NewLine()}{columns}";
+            var columns = string.Join($",{sqlOptions.NewLine()}{sqlOptions.Indent()}", Entities.Select(e => e.BuildSql(sqlOptions)));
+            return $"{sqlOptions.Command("SELECT")}{sqlOptions.NewLine()}{sqlOptions.Indent()}{columns}";
         }
     }
 }

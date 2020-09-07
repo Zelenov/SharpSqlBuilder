@@ -24,7 +24,9 @@ namespace SharpSqlBuilder.Tests
             [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
             public Guid Auto { get; set; }
 
-            [Column("value1")] public int Value1 { get; set; }
+            [ForeignKeyType(typeof(Class3))]
+            [Column("value1")] public Guid Value1 { get; set; }
+            [ForeignKeyType(typeof(Class4))]
             [Column("value2")] public string Value2 { get; set; }
 
             [Column("do_not_change")]
@@ -45,13 +47,33 @@ namespace SharpSqlBuilder.Tests
             [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
             public Guid DbGenerated { get; set; }
 
-            [Column("value1")] public string Value1 { get; set; }
+            [Column("value1")] 
+            public int Value1 { get; set; }
             [Column("value2")] public string Value2 { get; set; }
             [Column("code_generated")] public DateTime CodeGenerated { get; set; }
 
             [Column("do_not_change")]
             [IgnoreUpdate]
             public DateTime DoNotChange { get; set; }
+        }
+
+        [Table("class3", Schema = "foo")]
+        public class Class3
+        {
+            [Key] [Column("key")] public Guid Key { get; set; }
+
+           
+            [Column("value1")] 
+            public int Value1 { get; set; }
+        }
+        [Table("class4", Schema = "foo")]
+        public class Class4
+        {
+            [Key] [Column("key")] public string Key { get; set; }
+
+           
+            [Column("value1")] 
+            public int Value1 { get; set; }
         }
         
         [Test]
@@ -225,6 +247,39 @@ namespace SharpSqlBuilder.Tests
             ";
             Check(expected, actual);
         }
+        [Test]
+        public void SqlBuilder_Select_AutoJoin_EqualsExpected()
+        {
+            var table1 = new SqlTable<Class1>();
+            var table3 = new SqlTable<Class3>();
+            var table4 = new SqlTable<Class4>();
+          
+            var sqlBuilder = SqlBuilder.Select()
+               .Values(table1, table3, table4)
+               .From(table1)
+               .InnerJoin(table3)
+               .LeftJoin(table4)
+                ;
+            var sqlOptions = new SqlOptions {Dialect = SqlDialect.Postgres95};
+
+            var actual = sqlBuilder.BuildSql(sqlOptions);
+            var expected = @"
+            SELECT
+	            class1.id AS Id,
+	            class1.auto AS Auto,
+	            class1.value1 AS Value1,
+	            class1.value2 AS Value2,
+	            class1.do_not_change AS DoNotChange,
+	            class3.key AS Key,
+	            class3.value1 AS Value1,
+	            class4.key AS Key,
+	            class4.value1 AS Value1
+            FROM foo.class1
+            INNER JOIN foo.class3 ON class3.key = class1.value1
+            LEFT JOIN foo.class4 ON class4.key = class1.value2
+            ";
+            Check(expected, actual);
+        }
 
         [Test]
         public void SqlBuilder_Update_Class1_EqualsExpected()
@@ -251,7 +306,7 @@ namespace SharpSqlBuilder.Tests
             Console.WriteLine("___________\nACTUAL\n");
             Console.WriteLine(actual);
             Console.WriteLine("___________\nEXPECTED\n");
-            Console.WriteLine(actual);
+            Console.WriteLine(expected);
             Assert.AreEqual(Sql.Normalize(expected), Sql.Normalize(actual));
         }
     }

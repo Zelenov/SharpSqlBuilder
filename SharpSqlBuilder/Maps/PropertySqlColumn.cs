@@ -41,7 +41,12 @@ namespace SharpSqlBuilder.Maps
             var ignoreUpdate = ignoreUpdateAttribute != null;
             if (ignoreUpdate)
                 DoNotUpdate();
+
+            var foreignKeyAttribute = propertyInfo.GetAttribute<ForeignKeyAttribute>();
+            if (foreignKeyAttribute!=null)
+                WithForeignKey(foreignKeyAttribute.Name);
         }
+
 
         public PropertyInfo PropertyInfo { get; set; }
     }

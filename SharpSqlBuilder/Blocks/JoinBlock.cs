@@ -18,8 +18,8 @@ namespace SharpSqlBuilder.Blocks
         public JoinBlock(JoinType joinType, SqlTable sqlTable, Operator on = null)
         {
             JoinType = joinType;
-            TableEntity = sqlTable != null ? new TableEntity(sqlTable) : throw new ArgumentException(nameof(sqlTable));
-            OnBlock = on == null ? null : new JoinOnBlock(on);
+            TableEntity = new TableEntity(sqlTable ?? throw new ArgumentException(nameof(sqlTable)));
+            OnBlock = new JoinOnBlock(on ?? throw new ArgumentException(nameof(on)));
         }
 
         public override bool Present(SqlOptions sqlOptions) => TableEntity.Present(sqlOptions);
@@ -47,8 +47,8 @@ namespace SharpSqlBuilder.Blocks
 
             var command = sqlOptions.Command(joinType);
             var table = TableEntity.BuildSql(sqlOptions);
-            var on = OnBlock?.Present(sqlOptions) != true ? null : $" {OnBlock.BuildSql(sqlOptions)}";
-            return $"{command} {table}{on}";
+            var on = OnBlock.BuildSql(sqlOptions);
+            return $"{command} {table} {on}";
         }
     }
 }

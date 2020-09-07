@@ -33,7 +33,8 @@ namespace SharpSqlBuilder.Builders
         protected SqlSelectPosition CurrentPosition = SqlSelectPosition.Start;
         protected LimitBlock LimitBlock;
         protected OffsetBlock OffsetBlock;
-
+        protected readonly IList<SqlTable> Tables = new List<SqlTable>();
+        
         public override bool Present(SqlOptions sqlOptions) =>
             SelectValuesBlock.Present(sqlOptions) && FromTablesBlock.Present(sqlOptions);
 
@@ -61,37 +62,64 @@ namespace SharpSqlBuilder.Builders
         public SqlSelectBuilder From(params SqlTable[] dbMaps)
         {
             FromTablesBlock.AddRange(dbMaps.Select(dbMap => new TableEntity(dbMap)));
+            foreach (var dbMap in dbMaps)
+            {
+                Tables.Add(dbMap);
+            }
             CurrentPosition = SqlSelectPosition.From;
             return this;
         }
 
+        public SqlSelectBuilder Join(JoinType joinType, SqlTable sqlTable, Operator on = null)
+        {
+            if (on == null)
+                on = AutoJoin(sqlTable);
+            Tables.Add(sqlTable);
+            JoinsBlock.Add(new JoinBlock(joinType, sqlTable, on));
+            CurrentPosition = SqlSelectPosition.Join;
+            return this;
+        }
+
+        private Operator AutoJoin(SqlTable sqlTable)
+        {
+            var tables = Tables.Where(t => t.ForeignKeys.Any(column => column.ForeignKey == sqlTable.TableName))
+               .ToArray();
+            var fkTable = tables.FirstOrDefault(t => t.Schema == sqlTable.Schema) ?? tables.FirstOrDefault();
+            if (fkTable == null)
+                throw new ArgumentException($"Failed to find foreign key for joining table {sqlTable.TableName}");
+
+            var fks = fkTable.ForeignKeys.Where(fk=>fk.ForeignKey == sqlTable.TableName).ToArray();
+            if (fks.Length > 1)
+                throw new ArgumentException(
+                    $"Table {fkTable.TableName} has more than one foreign key to table {sqlTable.TableName}");
+
+            var foreignKey = fks[0];
+            var keys = sqlTable.Keys.ToArray();
+            if (keys.Length > 1)
+                throw new ArgumentException($"Table {sqlTable.TableName} has more than one key");
+
+            var key = keys[0];
+            return key.EqualsOne(foreignKey);
+        }
+
+
         public SqlSelectBuilder InnerJoin(SqlTable sqlTable, Operator on = null)
         {
-            JoinsBlock.Add(new JoinBlock(JoinType.Inner, sqlTable, on));
-            CurrentPosition = SqlSelectPosition.Join;
-            return this;
+            return Join(JoinType.Inner, sqlTable, on);
+        }
+        public SqlSelectBuilder LeftJoin(SqlTable sqlTable, Operator on = null)
+        {
+            return Join(JoinType.Left, sqlTable, on);
         }
 
-
-        public SqlSelectBuilder LeftJoin(SqlTable sqlTable, Operator on)
+        public SqlSelectBuilder FullOuterJoin(SqlTable sqlTable, Operator on = null)
         {
-            JoinsBlock.Add(new JoinBlock(JoinType.Left, sqlTable, on));
-            CurrentPosition = SqlSelectPosition.Join;
-            return this;
+            return Join(JoinType.FullOuter, sqlTable, on);
         }
 
-        public SqlSelectBuilder FullOuterJoin(SqlTable sqlTable, Operator on)
+        public SqlSelectBuilder RightJoin(SqlTable sqlTable, Operator on = null)
         {
-            JoinsBlock.Add(new JoinBlock(JoinType.FullOuter, sqlTable, on));
-            CurrentPosition = SqlSelectPosition.Join;
-            return this;
-        }
-
-        public SqlSelectBuilder RightJoin(SqlTable sqlTable, Operator on)
-        {
-            JoinsBlock.Add(new JoinBlock(JoinType.Right, sqlTable, on));
-            CurrentPosition = SqlSelectPosition.Join;
-            return this;
+            return Join(JoinType.Right, sqlTable, on);
         }
 
         public SqlSelectBuilder Where(params Operator[] operators)
