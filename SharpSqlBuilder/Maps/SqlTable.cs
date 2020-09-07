@@ -45,8 +45,8 @@ namespace SharpSqlBuilder.Maps
 
         public void AddRange(IEnumerable<SqlColumn> items)
         {
-            foreach (var dbMapItem in items)
-                Add(dbMapItem);
+            foreach (var sqlColumn in items)
+                Add(sqlColumn);
         }
 
         public void Add(SqlColumn sqlColumn)

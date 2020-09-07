@@ -9,7 +9,7 @@ namespace SharpSqlBuilder.Extensions
     {
         public static ExcludedOperand Excluded(this SqlColumn self) => new ExcludedOperand(self);
 
-        public static TableColumnOperand Property(this SqlColumn self) => new TableColumnOperand(self);
+        public static SqlFilterOperand Property(this SqlColumn self) => new SqlFilterOperand(self);
 
         public static TableColumnOperand Column(this SqlColumn self) => new TableColumnOperand(self);
 

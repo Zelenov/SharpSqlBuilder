@@ -11,6 +11,10 @@ namespace SharpSqlBuilder.Operands
         {
             PropertyName = sqlFilterItem?.PropertyName ?? throw new ArgumentException(nameof(sqlFilterItem));
         }
+        public SqlFilterOperand(SqlColumn sqlColumn)
+        {
+            PropertyName = sqlColumn?.PropertyName ?? throw new ArgumentException(nameof(sqlColumn));
+        }
 
         public override string BuildSql(SqlOptions sqlOptions) => $"@{PropertyName}";
     }

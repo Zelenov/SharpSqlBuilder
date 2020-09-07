@@ -30,6 +30,7 @@ namespace SharpSqlBuilder.Builders
         {
             SqlTable = sqlTable;
             DeleteFromBlock = new DeleteFromBlock(sqlTable ?? throw new ArgumentException(nameof(sqlTable)));
+            CurrentPosition = SqlDeletePosition.From;
         }
 
         public override bool Present(SqlOptions sqlOptions) => DeleteFromBlock?.Present(sqlOptions) == true;
@@ -61,9 +62,9 @@ namespace SharpSqlBuilder.Builders
 
         public SqlDeleteBuilder ReturnsAllValues() => Returns(SqlTable);
 
-        public SqlDeleteBuilder Returns(IEnumerable<SqlColumn> dbMapItems)
+        public SqlDeleteBuilder Returns(IEnumerable<SqlColumn> sqlColumns)
         {
-            ReturningsBlock.AddRange(dbMapItems.Select(m => new ColumnEntity(m)));
+            ReturningsBlock.AddRange(sqlColumns.Select(m => new ColumnEntity(m)));
             CurrentPosition = SqlDeletePosition.Return;
             return this;
         }

@@ -11,9 +11,9 @@ namespace SharpSqlBuilder.Maps
         public readonly Dictionary<string, SqlFilterItem> Props;
 
 
-        protected SqlFilter(IEnumerable<SqlFilterItem> dbMapItems)
+        protected SqlFilter(IEnumerable<SqlFilterItem> sqlColumns)
         {
-            Props = dbMapItems.ToDictionary(i => i.PropertyName);
+            Props = sqlColumns.ToDictionary(i => i.PropertyName);
         }
 
         public SqlFilterItem this[string property] => Props[property];

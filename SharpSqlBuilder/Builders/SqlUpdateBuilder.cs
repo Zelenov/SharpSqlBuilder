@@ -33,6 +33,7 @@ namespace SharpSqlBuilder.Builders
         {
             SqlTable = sqlTable;
             UpdateTableBlock = new UpdateTableBlock(sqlTable ?? throw new ArgumentException(nameof(sqlTable)));
+            CurrentPosition = SqlUpdatePosition.Table;
         }
 
         public override bool Present(SqlOptions sqlOptions) =>
@@ -47,9 +48,9 @@ namespace SharpSqlBuilder.Builders
         }
 
 
-        public SqlUpdateBuilder Values(IEnumerable<SqlColumn> dbMapItems)
+        public SqlUpdateBuilder Values(IEnumerable<SqlColumn> sqlColumns)
         {
-            ColumnsBlock.AddRange(dbMapItems.Select(m => new UpdateColumnBlock(m)));
+            ColumnsBlock.AddRange(sqlColumns.Select(m => new UpdateColumnBlock(m)));
             CurrentPosition = SqlUpdatePosition.Columns;
             return this;
         }
@@ -74,9 +75,9 @@ namespace SharpSqlBuilder.Builders
 
         public SqlUpdateBuilder ReturnsAllValues() => Returns(SqlTable);
 
-        public SqlUpdateBuilder Returns(IEnumerable<SqlColumn> dbMapItems)
+        public SqlUpdateBuilder Returns(IEnumerable<SqlColumn> sqlColumns)
         {
-            ReturningsBlock.AddRange(dbMapItems.Select(m => new ColumnEntity(m)));
+            ReturningsBlock.AddRange(sqlColumns.Select(m => new ColumnEntity(m)));
             CurrentPosition = SqlUpdatePosition.Return;
             return this;
         }

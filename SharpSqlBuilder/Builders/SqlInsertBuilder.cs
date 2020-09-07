@@ -47,9 +47,9 @@ namespace SharpSqlBuilder.Builders
             InsertValuesBlock.Present(sqlOptions);
 
 
-        public SqlInsertBuilder Values(IEnumerable<SqlColumn> dbMapItems)
+        public SqlInsertBuilder Values(IEnumerable<SqlColumn> sqlColumns)
         {
-            var mapItems = dbMapItems as SqlColumn[] ?? dbMapItems.ToArray();
+            var mapItems = sqlColumns as SqlColumn[] ?? sqlColumns.ToArray();
             InsertColumnsBlock.AddRange(mapItems.Select(m => new ColumnEntity(m)));
             InsertValuesBlock.AddRange(mapItems.Select(m => m.Property()));
             CurrentPosition = SqlInsertPosition.Values;
@@ -64,16 +64,16 @@ namespace SharpSqlBuilder.Builders
             return this;
         }
 
-        public SqlInsertBuilder OnConflict(IEnumerable<SqlColumn> dbMapItems)
+        public SqlInsertBuilder OnConflict(IEnumerable<SqlColumn> sqlColumns)
         {
-            ConflictUpdate.AddRange(dbMapItems.Select(m => new ColumnEntity(m)));
+            ConflictUpdate.AddRange(sqlColumns.Select(m => new ColumnEntity(m)));
             CurrentPosition = SqlInsertPosition.Conflict;
             return this;
         }
 
-        public SqlInsertBuilder DoUpdate(IEnumerable<SqlColumn> dbMapItems)
+        public SqlInsertBuilder DoUpdate(IEnumerable<SqlColumn> sqlColumns)
         {
-            DoUpdateBlock.AddRange(dbMapItems.Select(m => new OnConflictUpdateValueBlock(m)));
+            DoUpdateBlock.AddRange(sqlColumns.Select(m => new OnConflictUpdateValueBlock(m)));
             CurrentPosition = SqlInsertPosition.DoUpdate;
             return this;
         }
@@ -85,9 +85,9 @@ namespace SharpSqlBuilder.Builders
             return this;
         }
 
-        public SqlInsertBuilder Returns(IEnumerable<SqlColumn> dbMapItems)
+        public SqlInsertBuilder Returns(IEnumerable<SqlColumn> sqlColumns)
         {
-            ReturningBlock.AddRange(dbMapItems.Select(m => new ColumnEntity(m)));
+            ReturningBlock.AddRange(sqlColumns.Select(m => new ColumnEntity(m)));
             CurrentPosition = SqlInsertPosition.Return;
             return this;
         }

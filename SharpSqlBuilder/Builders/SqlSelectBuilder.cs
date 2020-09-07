@@ -38,15 +38,15 @@ namespace SharpSqlBuilder.Builders
         public override bool Present(SqlOptions sqlOptions) =>
             SelectValuesBlock.Present(sqlOptions) && FromTablesBlock.Present(sqlOptions);
 
-        public SqlSelectBuilder Values(params SqlTable[] dbMaps)
+        public SqlSelectBuilder(params SqlTable[] sqlTables)
         {
-            return Values(dbMaps?.SelectMany(dbMap => dbMap)) ?? throw new ArgumentException(nameof(dbMaps));
+            Values(sqlTables?.SelectMany(sqlTable => sqlTable) ?? throw new ArgumentException(nameof(sqlTables)));
         }
 
-        public SqlSelectBuilder Values(IEnumerable<SqlColumn> dbMapItems)
+        public SqlSelectBuilder Values(IEnumerable<SqlColumn> sqlColumns)
         {
-            SelectValuesBlock.AddRange(dbMapItems?.Select(m => new SelectColumnBlock(m)) ??
-                throw new ArgumentException(nameof(dbMapItems)));
+            SelectValuesBlock.AddRange(sqlColumns?.Select(m => new SelectColumnBlock(m)) ??
+                throw new ArgumentException(nameof(sqlColumns)));
             CurrentPosition = SqlSelectPosition.Select;
             return this;
         }
@@ -59,12 +59,12 @@ namespace SharpSqlBuilder.Builders
             return this;
         }
 
-        public SqlSelectBuilder From(params SqlTable[] dbMaps)
+        public SqlSelectBuilder From(params SqlTable[] sqlTables)
         {
-            FromTablesBlock.AddRange(dbMaps.Select(dbMap => new TableEntity(dbMap)));
-            foreach (var dbMap in dbMaps)
+            FromTablesBlock.AddRange(sqlTables.Select(sqlTable => new TableEntity(sqlTable)));
+            foreach (var sqlTable in sqlTables)
             {
-                Tables.Add(dbMap);
+                Tables.Add(sqlTable);
             }
             CurrentPosition = SqlSelectPosition.From;
             return this;
@@ -136,9 +136,9 @@ namespace SharpSqlBuilder.Builders
             return this;
         }
 
-        public SqlSelectBuilder OrderBy(OrderBlock orderBy)
+        public SqlSelectBuilder OrderBy(SqlColumn sqlColumn, OrderDirection direction)
         {
-            OrdersBlock.Add(orderBy);
+            OrdersBlock.Add(new OrderBlock(sqlColumn, direction));
             CurrentPosition = SqlSelectPosition.Order;
             return this;
         }
