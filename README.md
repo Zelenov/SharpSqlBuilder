@@ -101,6 +101,10 @@ var sqlOptions = new SqlOptions {Dialect = SqlDialect.Postgres95};
 ```
 and these classes configured
 ```csharp
+var sqlFilter = SqlFilter.Construct(
+	new {Ids = new[] {1, 2}, Value1 = "foo", Auto = (int?) null}
+);
+
 [Table("class1", Schema = "foo")]
 public class Class1
 {
@@ -169,9 +173,7 @@ var sqlBuilder = SqlBuilder.Select
    .Values(table1, table2)
    .From(table1)
    .InnerJoin(table2, table2[m => m.Key].EqualsOne(table1[m => m.Id]))
-   .Where(
-	   	whereConditions
-	)
+   .Where(whereConditions)
    .OrderBy(table1[m=>m.Id], OrderDirection.Asc)
    .Offset(5)
    .LimitBy(10);
@@ -284,7 +286,7 @@ RETURNING id, auto
 ```csharp  
 var sqlBuilder = SqlBuilder.Delete.From(SqlTable.FromType<Class1>())
    .WhereKeysEquals();
-   
+
 Console.WriteLine(sqlBuilder.BuildSql(sqlOptions));
 ```
 Builds the following SQL
