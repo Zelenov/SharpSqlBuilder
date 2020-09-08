@@ -1,0 +1,236 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SharpSqlBuilder</name>
+    </assembly>
+    <members>
+        <member name="T:SharpSqlBuilder.Blocks.CollectionBlock`1">
+            <summary>
+                Sql block with multiple entities
+            </summary>
+            <typeparam name="T">Sql entity</typeparam>
+        </member>
+        <member name="T:SharpSqlBuilder.Blocks.CustomSqlBlock">
+            <summary>
+                Custom Sql Block
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Blocks.DeleteFromBlock">
+            <summary>
+            <example>DELETE FROM ...</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Blocks.DoUpdateBlock">
+            <summary>
+            <example>DO UPDATE SET ... = ..., ... = ...</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Blocks.FromTablesBlock">
+            <summary>
+            <example>FROM ..., ..., ...</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Blocks.InsertColumnsBlock">
+            <summary>
+            <example>(..., ..., ...)</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Blocks.InsertIntoBlock">
+            <summary>
+            <example>INSERT INTO ...</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Blocks.InsertValuesBlock">
+            <summary>
+            <example>VALUES ..., ..., ...</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Blocks.JoinBlock">
+            <summary>
+            <example>JOIN ... ON ...</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Blocks.JoinOnBlock">
+            <summary>
+            <example>ON ... = ... XXX ... = ...</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Blocks.JoinsBlock">
+            <summary>
+            <example>JOIN ..., JOIN ..., JOIN ...</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Blocks.LimitBlock">
+            <summary>
+            <example>LIMIT 10</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Blocks.OffsetBlock">
+            <summary>
+            <example>OFFSET 10</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Blocks.OnConflictBlock">
+            <summary>
+            <example>ON CONFLICT ..., ..., ...</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Blocks.OnConflictUpdateValueBlock">
+            <summary>
+            <example>column = @PropertyName</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Blocks.OrderBlock">
+            <summary>
+            <example>table.column DESC</example>
+            <example>table.column ASC</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Blocks.ReturningBlock">
+            <summary>
+            <example>RETURNING ..., ..., ...</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Blocks.SelectColumnBlock">
+            <summary>
+                SqlColumn AS PropertyName block
+                <example>column AS PropertyName</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Blocks.SelectValuesBlock">
+            <summary>
+            <example>SELECT ..., ..., ...</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Blocks.UpdateColumnBlock">
+            <summary>
+            <example>column = @Property</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Blocks.UpdateColumnsBlock">
+            <summary>
+            <example>SET ... = ..., ... = ...</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Blocks.UpdateTableBlock">
+            <summary>
+            <example>UPDATE ...</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Blocks.WhereBlock">
+            <summary>
+            <example>WHERE ..., ..., ...</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Entities.ColumnEntity">
+            <summary>
+                Represents just a table's column name, without (tablename.) part. Used in RETURNING ..., ... block
+                <example>column</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Entities.OutputValueEntity">
+            <summary>
+                PropertyName for select and other blocks, without @ symbol in the beginning
+                <example>PropertyName</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Entities.TableEntity">
+            <summary>
+                Represents Schema + Table pair. Schema can be null.
+                <example>schema.table</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.CustomSqlOperand">
+            <summary>
+                Represents custom data operand. Can be used for any data representation like '10', '2000-01-01'
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.ExcludedOperand">
+            <summary>
+                Represents excluded column
+                <example>EXCLUDED.column</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.FalseOperand">
+            <summary>
+            <example>FALSE</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.TableColumnOperand">
+            <summary>
+                TableName + ColumnName Pair
+                <example>table.column</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.TrueOperand">
+            <summary>
+            <example>TRUE</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operators.AndOperator">
+            <summary>
+            <example>AND ... AND ...</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operators.ChainOperator">
+            <summary>
+                Operator with multiple operands
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operators.EqualsAnyOperator">
+            <summary>
+            <example>... = ANY (...)</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operators.EqualsOneOperator">
+            <summary>
+            <example>... = ...</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operators.IsFalseOperator">
+            <summary>
+            <example>... = FALSE</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operators.IsNullOperator">
+            <summary>
+            <example>... IS NULL</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operators.IsTrueOperator">
+            <summary>
+            <example>... = TRUE</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operators.LessOrEqualToOperator">
+            <summary>
+            <example>... &lt;= ...</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operators.LessThanOperator">
+            <summary>
+            <example>... &lt; ...</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operators.MoreOrEqualToOperator">
+            <summary>
+            <example>... &gt;= ...</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operators.MoreThanOperator">
+            <summary>
+            <example>... &gt; ...</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operators.NotNullOperator">
+            <summary>
+            <example>... IS NOT NULL</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operators.OrOperator">
+            <summary>
+            <example>... OR ... OR ...</example>
+            </summary>
+        </member>
+    </members>
+</doc>

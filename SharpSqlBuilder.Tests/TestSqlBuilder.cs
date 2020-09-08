@@ -163,7 +163,9 @@ namespace SharpSqlBuilder.Tests
                 DoNotChange = (OrderItem) null
             };
             var orderMap = OrderMap.FromOrder(table, order.GetType());
-            var sqlFilter = SqlFilter.Construct(new {Ids = new[] {1, 2}, Value1 = "foo", Auto = (int?) null});
+            var sqlFilter = SqlFilter.Construct(
+                new {Ids = new[] {1, 2}, Value1 = "foo", Auto = (int?) null}
+                );
 
             var whereSql = new[]
             {
@@ -207,13 +209,6 @@ namespace SharpSqlBuilder.Tests
         {
             var table1 = new SqlTable<Class1>();
             var table2 = new SqlTable<Class2>();
-            var order = new
-            {
-                Id = new OrderItem {Direction = OrderDirection.Asc, Index = 2},
-                Value1 = new OrderItem {Direction = OrderDirection.Desc, Index = 1},
-                DoNotChange = (OrderItem) null
-            };
-            var orderMap = OrderMap.FromOrder(table1, order.GetType());
             var sqlFilter = SqlFilter.Construct(new
             {
                 Ids = new[] {1, 2},
@@ -337,7 +332,7 @@ namespace SharpSqlBuilder.Tests
             var sqlOptions = new SqlOptions { Dialect = SqlDialect.Postgres95 };
             var actual = sqlBuilder.BuildSql(sqlOptions);
             var expected = @"
-           /* START */
+            /* START */
             UPDATE foo.class1
             /* UPDATE */
             SET

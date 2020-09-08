@@ -2,6 +2,30 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageIconUrl />
+    <PackageProjectUrl>https://github.com/Zelenov/SharpSqlBuilder</PackageProjectUrl>
+    <Version>0.1.0</Version>
+    <Authors>Evgeny Zelenov</Authors>
+    <Description>Multi-dialect sql builder with advanced mapping and custom extensions for Database-First applications.
+
+SharpSqlBuilder takes your models and maps them to SQL text queries.</Description>
+    <PackageTags>sql, builder, database-first, postgres, mssql, sqlite</PackageTags>
+    <PackageLicenseExpression></PackageLicenseExpression>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <Copyright>Evgeny Zelenov</Copyright>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <DocumentationFile>C:\Work\Duo\Api\SharpSqlBuilder\SharpSqlBuilder\SharpSqlBuilder.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,6 +35,14 @@
     <EmbeddedResource Remove="NewFolder\**" />
     <None Remove="NewFolder1\**" />
     <None Remove="NewFolder\**" />
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
