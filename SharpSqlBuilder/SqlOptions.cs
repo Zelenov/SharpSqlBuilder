@@ -1,4 +1,5 @@
-﻿using SharpSqlBuilder.Attributes;
+﻿using System;
+using SharpSqlBuilder.Attributes;
 using SharpSqlBuilder.Builders;
 using SharpSqlBuilder.Extensions;
 
@@ -12,6 +13,6 @@ namespace SharpSqlBuilder
         public bool UpperCaseCommands { get; set; } = true;
         public bool OneLine { get; set; } = false;
         public string IndentSymbol { get; set; } = "\t";
-        public string NewLineSymbol { get; set; } = "\r\n";
+        public string NewLineSymbol { get; set; } = Environment.NewLine;
     }
 }
