@@ -87,7 +87,7 @@ namespace SharpSqlBuilder.Builders
 
         public SqlInsertBuilder Returns(IEnumerable<SqlColumn> sqlColumns)
         {
-            ReturningBlock.AddRange(sqlColumns.Select(m => new ColumnEntity(m)));
+            ReturningBlock.AddRange(sqlColumns.Select(m => new ColumnAsPropertyEntity(m)));
             CurrentPosition = SqlInsertPosition.Return;
             return this;
         }

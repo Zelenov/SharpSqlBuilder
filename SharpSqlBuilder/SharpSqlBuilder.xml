@@ -88,7 +88,7 @@
         </member>
         <member name="T:SharpSqlBuilder.Blocks.ReturningBlock">
             <summary>
-            <example>RETURNING ..., ..., ...</example>
+            <example>RETURNING ... AS ..., ... AS ...</example>
             </summary>
         </member>
         <member name="T:SharpSqlBuilder.Blocks.SelectColumnBlock">
@@ -127,9 +127,15 @@
             Use for Dapper's splitOn param
             </summary>
         </member>
+        <member name="T:SharpSqlBuilder.Entities.ColumnAsPropertyEntity">
+            <summary>
+                Represents just a table's column name + as Property part. Used in RETURNING ..., ... block
+                <example>column</example>
+            </summary>
+        </member>
         <member name="T:SharpSqlBuilder.Entities.ColumnEntity">
             <summary>
-                Represents just a table's column name, without (tablename.) part. Used in RETURNING ..., ... block
+                Represents just a table's column name, without (tablename.) part. Used in ON CONFLICT ..., ... block
                 <example>column</example>
             </summary>
         </member>

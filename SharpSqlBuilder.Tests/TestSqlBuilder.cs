@@ -95,7 +95,12 @@ namespace SharpSqlBuilder.Tests
             WHERE
 	            (@Id = class1.id)
             /* WHERE */
-            RETURNING id, auto, value1, value2, do_not_change
+            RETURNING
+	            id AS Id,
+	            auto AS Auto,
+	            value1 AS Value1,
+	            value2 AS Value2,
+	            do_not_change AS DoNotChange
             /* RETURNING */
             ";
             Check(expected, actual);
@@ -145,7 +150,9 @@ namespace SharpSqlBuilder.Tests
             WHERE
                 (EXCLUDED.code_generated < class2.code_generated)
             /* WHERE */
-            RETURNING key_db_generated, db_generated
+            RETURNING
+	            key_db_generated AS DbGeneratedKey,
+	            db_generated AS DbGenerated
             /* RETURNING */
             ";
             Check(expected, actual);
@@ -344,7 +351,9 @@ namespace SharpSqlBuilder.Tests
             WHERE
 	            (@Id = class1.id)
             /* WHERE */
-            RETURNING id, auto
+            RETURNING
+	            id AS Id,
+	            auto AS Auto
             /* RETURNING */
             ";
             Check(expected, actual);

@@ -4,7 +4,7 @@ using SharpSqlBuilder.Maps;
 namespace SharpSqlBuilder.Entities
 {
     /// <summary>
-    ///     Represents just a table's column name, without (tablename.) part. Used in RETURNING ..., ... block
+    ///     Represents just a table's column name, without (tablename.) part. Used in ON CONFLICT ..., ... block
     ///     <example>column</example>
     /// </summary>
     public class ColumnEntity : SqlBuilderEntity

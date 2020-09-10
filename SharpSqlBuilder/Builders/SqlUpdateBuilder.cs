@@ -77,7 +77,7 @@ namespace SharpSqlBuilder.Builders
 
         public SqlUpdateBuilder Returns(IEnumerable<SqlColumn> sqlColumns)
         {
-            ReturningsBlock.AddRange(sqlColumns.Select(m => new ColumnEntity(m)));
+            ReturningsBlock.AddRange(sqlColumns.Select(m => new ColumnAsPropertyEntity(m)));
             CurrentPosition = SqlUpdatePosition.Return;
             return this;
         }

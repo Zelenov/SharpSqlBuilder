@@ -64,7 +64,7 @@ namespace SharpSqlBuilder.Builders
 
         public SqlDeleteBuilder Returns(IEnumerable<SqlColumn> sqlColumns)
         {
-            ReturningsBlock.AddRange(sqlColumns.Select(m => new ColumnEntity(m)));
+            ReturningsBlock.AddRange(sqlColumns.Select(m => new ColumnAsPropertyEntity(m)));
             CurrentPosition = SqlDeletePosition.Return;
             return this;
         }
