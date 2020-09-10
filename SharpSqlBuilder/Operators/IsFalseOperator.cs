@@ -15,7 +15,7 @@ namespace SharpSqlBuilder.Operators
         {
             var operand = Operand.BuildSql(sqlOptions);
             var command = new FalseOperand().BuildSql(sqlOptions);
-            return $"{operand} {command}";
+            return $"{operand} = {command}";
         }
     }
 }

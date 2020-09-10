@@ -20,6 +20,9 @@ namespace SharpSqlBuilder.Blocks
 
         private IEnumerable<OrderBlock> ParseOrderFilter(OrderMap orderMap, object order)
         {
+            if (order == null || orderMap == null)
+                return Enumerable.Empty<OrderBlock>();
+
             var props = OrderProps.GetOrAdd(order.GetType(),
                 o => o.GetProperties().Where(p => p.PropertyType == typeof(OrderItem)).ToDictionary(p => p.Name));
             var setOrders = props.Values.Select(p => (o: (OrderItem) p.GetValue(order), p))

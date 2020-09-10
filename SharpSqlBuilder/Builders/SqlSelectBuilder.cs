@@ -108,6 +108,9 @@ namespace SharpSqlBuilder.Builders
 
             var foreignKey = fks[0];
             var keys = sqlTable.Keys.ToArray();
+            if (keys.Length == 0)
+                throw new ArgumentException($"Table {sqlTable.TableName} has no key");
+
             if (keys.Length > 1)
                 throw new ArgumentException($"Table {sqlTable.TableName} has more than one key");
 
