@@ -122,6 +122,11 @@
             <example>WHERE ..., ..., ...</example>
             </summary>
         </member>
+        <member name="P:SharpSqlBuilder.Builders.SqlSelectBuilder.SplitOn">
+            <summary>
+            Use for Dapper's splitOn param
+            </summary>
+        </member>
         <member name="T:SharpSqlBuilder.Entities.ColumnEntity">
             <summary>
                 Represents just a table's column name, without (tablename.) part. Used in RETURNING ..., ... block

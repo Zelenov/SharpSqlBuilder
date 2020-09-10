@@ -34,19 +34,32 @@ namespace SharpSqlBuilder.Builders
         protected LimitBlock LimitBlock;
         protected OffsetBlock OffsetBlock;
         protected readonly IList<SqlTable> Tables = new List<SqlTable>();
+        protected readonly IList<SqlColumn> FirstSqlColumns = new List<SqlColumn>();
+
+        /// <summary>
+        /// Use for Dapper's splitOn param
+        /// </summary>
+        public string SplitOn => string.Join(",", FirstSqlColumns.Select(c => c.PropertyName));
         
         public override bool Present(SqlOptions sqlOptions) =>
             SelectValuesBlock.Present(sqlOptions) && FromTablesBlock.Present(sqlOptions);
 
         public SqlSelectBuilder(params SqlTable[] sqlTables)
         {
-            Values(sqlTables?.SelectMany(sqlTable => sqlTable) ?? throw new ArgumentException(nameof(sqlTables)));
+            foreach (var sqlTable in sqlTables ?? throw new ArgumentException(nameof(sqlTables)))
+            {
+                Values(sqlTable);
+            }
         }
 
         public SqlSelectBuilder Values(IEnumerable<SqlColumn> sqlColumns)
         {
-            SelectValuesBlock.AddRange(sqlColumns?.Select(m => new SelectColumnBlock(m)) ??
+            var columns = sqlColumns as SqlColumn[] ?? sqlColumns.ToArray();
+            SelectValuesBlock.AddRange(columns?.Select(m => new SelectColumnBlock(m)) ??
                 throw new ArgumentException(nameof(sqlColumns)));
+            var firstColumn = columns.FirstOrDefault();
+            if (firstColumn!=null)
+                FirstSqlColumns.Add(firstColumn);
             CurrentPosition = SqlSelectPosition.Select;
             return this;
         }

@@ -202,6 +202,7 @@ namespace SharpSqlBuilder.Tests
             LIMIT 10
             ";
             Check(expected, actual);
+            Assert.AreEqual("Id", sqlBuilder.SplitOn);
         }
 
         [Test]
@@ -281,6 +282,7 @@ namespace SharpSqlBuilder.Tests
             /* LIMIT */
             ";
             Check(expected, actual);
+            Assert.AreEqual("Id,Key", sqlBuilder.SplitOn);
         }
         [Test]
         public void SqlBuilder_Select_AutoJoin_EqualsExpected()
