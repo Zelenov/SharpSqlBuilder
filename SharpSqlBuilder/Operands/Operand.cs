@@ -32,5 +32,6 @@ namespace SharpSqlBuilder.Operands
         public MoreThanOperator MoreThan(Operand other) => new MoreThanOperator(this, other);
 
         public MoreOrEqualToOperator MoreOrEqualTo(Operand other) => new MoreOrEqualToOperator(this, other);
+        public LikeOperator Like(Operand other) => new LikeOperator(this, other);
     }
 }

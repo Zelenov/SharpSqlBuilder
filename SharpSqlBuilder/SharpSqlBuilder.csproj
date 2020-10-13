@@ -3,10 +3,10 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageIcon>icon.png</PackageIcon>
+    <PackageIcon></PackageIcon>
     <PackageIconUrl />
     <PackageProjectUrl>https://github.com/Zelenov/SharpSqlBuilder</PackageProjectUrl>
-    <Version>0.3.1.0</Version>
+    <Version>0.3.2.0</Version>
     <Authors>Evgeny Zelenov</Authors>
     <Description>Multi-dialect sql builder with advanced mapping and custom extensions for Database-First applications.
 
@@ -25,7 +25,7 @@ SharpSqlBuilder takes your models and maps them to SQL text queries.</Descriptio
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <DocumentationFile>C:\Work\Duo\Api\SharpSqlBuilder\SharpSqlBuilder\SharpSqlBuilder.xml</DocumentationFile>
+    <DocumentationFile>SharpSqlBuilder.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -35,11 +35,9 @@ SharpSqlBuilder takes your models and maps them to SQL text queries.</Descriptio
     <EmbeddedResource Remove="NewFolder\**" />
     <None Remove="NewFolder1\**" />
     <None Remove="NewFolder\**" />
+    <None Remove="icon.png" />
+    <None Remove="icon.png" />
     <None Include="..\LICENSE">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-    <None Include="icon.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>

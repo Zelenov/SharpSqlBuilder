@@ -223,6 +223,11 @@
             <example>... &lt; ...</example>
             </summary>
         </member>
+        <member name="T:SharpSqlBuilder.Operators.LikeOperator">
+            <summary>
+            <example>... LIKE ...</example>
+            </summary>
+        </member>
         <member name="T:SharpSqlBuilder.Operators.MoreOrEqualToOperator">
             <summary>
             <example>... &gt;= ...</example>
