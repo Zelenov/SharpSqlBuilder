@@ -121,10 +121,10 @@ namespace SharpSqlBuilder.Builders
                 CustomBlocks[SqlInsertPosition.Conflict],
                 DoUpdateBlock,
                 CustomBlocks[SqlInsertPosition.DoUpdate],
-                ReturningBlock,
-                CustomBlocks[SqlInsertPosition.Return],
                 WhereBlock,
                 CustomBlocks[SqlInsertPosition.Where],
+                ReturningBlock,
+                CustomBlocks[SqlInsertPosition.Return],
             };
             var commands = data.Where(b => CheckBlock(b, sqlOptions)).Select(b => b.BuildSql(sqlOptions));
             return string.Join(sqlOptions.NewLine(), commands);

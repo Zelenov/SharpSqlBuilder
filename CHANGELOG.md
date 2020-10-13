@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.3
+### Fixed
+SqlInsertBuilder WHERE and RETURN operators order
+
 ## 0.3.2
 ### Added
 LikeOperator
