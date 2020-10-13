@@ -147,13 +147,13 @@ namespace SharpSqlBuilder.Tests
                 code_generated = EXCLUDED.code_generated,
                 do_not_change = EXCLUDED.do_not_change
             /* DO UPDATE SET */
+            WHERE
+                (EXCLUDED.code_generated < class2.code_generated)
+            /* WHERE */
             RETURNING
 	            key_db_generated AS DbGeneratedKey,
 	            db_generated AS DbGenerated
             /* RETURNING */
-            WHERE
-                (EXCLUDED.code_generated < class2.code_generated)
-            /* WHERE */
             ";
             Check(expected, actual);
         }
