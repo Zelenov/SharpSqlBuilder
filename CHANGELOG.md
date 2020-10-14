@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5
+### Added
+EXISTS and NOT EXISTS Operators
+Star (\*) Select
+
 ## 0.4.1
 ### Fixed
 Operator Like returned

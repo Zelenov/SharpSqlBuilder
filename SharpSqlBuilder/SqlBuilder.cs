@@ -14,7 +14,8 @@ namespace SharpSqlBuilder
         }
         public static class Select
         {
-            public static SqlSelectBuilder Values(params SqlTable[] sqlTables) => new SqlSelectBuilder(sqlTables);
+            public static SqlSelectBuilder Values(params SqlTable[] sqlTables) => new SqlSelectBuilder().Values(sqlTables);
+            public static SqlSelectBuilder Star() => new SqlSelectBuilder().Star();
         }
 
         public static class Delete

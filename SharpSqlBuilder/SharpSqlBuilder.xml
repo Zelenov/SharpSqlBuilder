@@ -97,6 +97,11 @@
                 <example>column AS PropertyName</example>
             </summary>
         </member>
+        <member name="T:SharpSqlBuilder.Blocks.SelectStarBlock">
+            <summary>
+            <example>SELECT *</example>
+            </summary>
+        </member>
         <member name="T:SharpSqlBuilder.Blocks.SelectValuesBlock">
             <summary>
             <example>SELECT ..., ..., ...</example>
@@ -348,6 +353,11 @@
             <example>... = ...</example>
             </summary>
         </member>
+        <member name="T:SharpSqlBuilder.Operators.ExistsOperator">
+            <summary>
+            <example>... EXISTS (SELECT ...)</example>
+            </summary>
+        </member>
         <member name="T:SharpSqlBuilder.Operators.ILikeOperator">
             <summary>
             <example>... ILIKE ...</example>
@@ -391,6 +401,11 @@
         <member name="T:SharpSqlBuilder.Operators.MoreThanOperator">
             <summary>
             <example>... &gt; ...</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operators.NotExistsOperator">
+            <summary>
+            <example>... NOT EXISTS (SELECT ...)</example>
             </summary>
         </member>
         <member name="T:SharpSqlBuilder.Operators.NotNullOperator">

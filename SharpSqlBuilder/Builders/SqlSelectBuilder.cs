@@ -29,27 +29,30 @@ namespace SharpSqlBuilder.Builders
         protected readonly JoinsBlock JoinsBlock = new JoinsBlock();
         protected readonly OrdersBlock OrdersBlock = new OrdersBlock();
         protected readonly SelectValuesBlock SelectValuesBlock = new SelectValuesBlock();
+        protected readonly SelectStarBlock SelectStarBlock = new SelectStarBlock();
         protected readonly WhereBlock WhereBlock = new WhereBlock();
         protected SqlSelectPosition CurrentPosition = SqlSelectPosition.Start;
         protected LimitBlock LimitBlock;
         protected OffsetBlock OffsetBlock;
+        protected bool IsStar;
         protected readonly IList<SqlTable> Tables = new List<SqlTable>();
         protected readonly IList<SqlColumn> FirstSqlColumns = new List<SqlColumn>();
 
         /// <summary>
         /// Use for Dapper's splitOn param
         /// </summary>
-        public string SplitOn => string.Join(",", FirstSqlColumns.Select(c => c.PropertyName));
+        public string SplitOn => string.Join(",", FirstSqlColumns.Select(c => IsStar? c.ColumnName : c.PropertyName));
         
         public override bool Present(SqlOptions sqlOptions) =>
-            SelectValuesBlock.Present(sqlOptions) && FromTablesBlock.Present(sqlOptions);
+            (IsStar || SelectValuesBlock.Present(sqlOptions)) && FromTablesBlock.Present(sqlOptions);
 
-        public SqlSelectBuilder(params SqlTable[] sqlTables)
+        public SqlSelectBuilder Values(params SqlTable[] sqlTables)
         {
             foreach (var sqlTable in sqlTables ?? throw new ArgumentException(nameof(sqlTables)))
             {
-                Values(sqlTable);
+                Values((IEnumerable<SqlColumn>)sqlTable);
             }
+            return this;
         }
 
         public SqlSelectBuilder Values(IEnumerable<SqlColumn> sqlColumns)
@@ -60,6 +63,13 @@ namespace SharpSqlBuilder.Builders
             var firstColumn = columns.FirstOrDefault();
             if (firstColumn!=null)
                 FirstSqlColumns.Add(firstColumn);
+            CurrentPosition = SqlSelectPosition.Select;
+            return this;
+        }
+
+        public SqlSelectBuilder Star()
+        {
+            IsStar = true;
             CurrentPosition = SqlSelectPosition.Select;
             return this;
         }
@@ -197,7 +207,7 @@ namespace SharpSqlBuilder.Builders
             IEnumerable<SqlBuilderEntity> data = new SqlBuilderEntity[]
             {
                 CustomSqlBlocks[SqlSelectPosition.Start],
-                SelectValuesBlock,
+                IsStar ? (SqlBuilderEntity)SelectStarBlock : SelectValuesBlock,
                 CustomSqlBlocks[SqlSelectPosition.Select],
                 FromTablesBlock,
                 CustomSqlBlocks[SqlSelectPosition.From],

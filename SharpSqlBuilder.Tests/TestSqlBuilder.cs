@@ -95,7 +95,7 @@ namespace SharpSqlBuilder.Tests
             DELETE FROM foo.class1
             /* DELETE FROM */
             WHERE
-	            (@Id = class1.id)
+	            @Id = class1.id
             /* WHERE */
             RETURNING
 	            id AS Id,
@@ -150,7 +150,7 @@ namespace SharpSqlBuilder.Tests
                 do_not_change = EXCLUDED.do_not_change
             /* DO UPDATE SET */
             WHERE
-                (EXCLUDED.code_generated < class2.code_generated)
+                EXCLUDED.code_generated < class2.code_generated
             /* WHERE */
             RETURNING
 	            key_db_generated AS DbGeneratedKey,
@@ -286,6 +286,7 @@ namespace SharpSqlBuilder.Tests
 	             AND (@Key IS NULL OR class2.key = @Key)
 	             AND (@DbGeneratedKey IS NULL OR class2.key_db_generated = @DbGeneratedKey)
 	             AND (class2.key ILIKE @Key)
+	             AND (class2.key LIKE @Key)
 	             AND (LOWER(class2.key) LIKE LOWER(@Key))
             /* WHERE */
             ORDER BY
@@ -334,6 +335,35 @@ namespace SharpSqlBuilder.Tests
         }
 
         [Test]
+        public void SqlBuilder_Select_Exists_EqualsExpected()
+        {
+            var table1 = new SqlTable<Class1>();
+            var table3 = new SqlTable<Class3>();
+
+            var sqlBuilder = SqlBuilder.Select.Values(table1)
+               .From(table1)
+               .Where(SqlBuilder.Select.Star()
+                   .From(table3)
+                   .Where(table3[t => t.Key].EqualsOne(table1[t => t.Value1]))
+                   .Exists());
+            var sqlOptions = new SqlOptions {Dialect = SqlDialect.Postgres95};
+
+            var actual = sqlBuilder.BuildSql(sqlOptions);
+            var expected = @"
+            SELECT
+	            class1.id AS Id,
+	            class1.auto AS Auto,
+	            class1.value1 AS Value1,
+	            class1.value2 AS Value2,
+	            class1.do_not_change AS DoNotChange
+            FROM foo.class1
+            WHERE
+                EXISTS(SELECT * FROM foo.class3 WHERE class3.key = class1.value1)
+            ";
+            Check(expected, actual);
+        }
+
+        [Test]
         public void SqlBuilder_Update_Class1_EqualsExpected()
         {
             var table = new SqlTable<Class1>();
@@ -357,7 +387,7 @@ namespace SharpSqlBuilder.Tests
 	            value2 = @Value2
             /* SET */
             WHERE
-	            (@Id = class1.id)
+	            @Id = class1.id
             /* WHERE */
             RETURNING
 	            id AS Id,
