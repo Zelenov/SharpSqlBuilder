@@ -9,6 +9,14 @@ namespace SharpSqlBuilder.Operators
     /// </summary>
     public class ILikeOperator : BinaryOperator
     {
+        public override int GetPriority(SqlOptions options)
+        {
+            switch (options.DatabaseType)
+            {
+                case SqlDatabaseType.Postgres: return 15;
+                default: return 7;
+            }
+        }
         public ILikeOperator(Operand leftOperand, Operand rightOperand) : base(leftOperand, rightOperand)
         {
         }
@@ -19,14 +27,14 @@ namespace SharpSqlBuilder.Operators
             {
                 case SqlDatabaseType.Postgres:
                 {
-                    var left = LeftOperand.BuildSql(sqlOptions);
-                    var right = RightOperand.BuildSql(sqlOptions);
+                    var left = LeftOperand.BuildSql(sqlOptions, FlowOptions.Construct(this));
+                    var right = RightOperand.BuildSql(sqlOptions, FlowOptions.Construct(this));
                     var command = sqlOptions.Command("ILIKE");
                     return $"{left} {command} {right}";
                 }
                 default:
                 {
-                    return new LikeOperator(LeftOperand.Lower(), RightOperand.Lower()).BuildSql(sqlOptions);
+                    return new LikeOperator(LeftOperand.Lower(), RightOperand.Lower()).BuildSql(sqlOptions, FlowOptions.Construct(this));
                 }
             }
         }

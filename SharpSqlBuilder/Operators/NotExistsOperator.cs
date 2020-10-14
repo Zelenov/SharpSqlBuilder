@@ -20,8 +20,7 @@ namespace SharpSqlBuilder.Operators
 
         public override string BuildSql(SqlOptions sqlOptions)
         {
-            var operand = _selectBuilder.BuildSql(sqlOptions);
-
+            var operand = _selectBuilder.BuildSql(((SqlOptions)sqlOptions.Clone()).Inlined());
             var command = sqlOptions.Command("NOT EXISTS");
             return $"{command}({operand})";
         }

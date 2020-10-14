@@ -12,8 +12,8 @@ namespace SharpSqlBuilder.Operators
 
         public override string BuildSql(SqlOptions sqlOptions)
         {
-            var left = LeftOperand.BuildSql(sqlOptions);
-            var right = RightOperand.BuildSql(sqlOptions);
+            var left = LeftOperand.BuildSql(sqlOptions, FlowOptions.Construct(this));
+            var right = RightOperand.BuildSql(sqlOptions, FlowOptions.Construct(this));
             var command = Command;
             return $"{left} {command} {right}";
         }

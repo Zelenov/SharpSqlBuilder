@@ -11,12 +11,12 @@ namespace SharpSqlBuilder.Blocks
     {
         public override string BuildSql(SqlOptions sqlOptions)
         {
-            var andOperators = Entities.Count > 1
-                ? Entities.Select(c => $"({c.BuildSql(sqlOptions)})")
-                : Entities.Select(c => c.BuildSql(sqlOptions));
-            var conditions = string.Join($"{sqlOptions.NewLine()}{sqlOptions.Indent()} AND ", andOperators);
+            var andBlock = new AndOperator(Entities);
+            andBlock.Indent = true;
+            andBlock.NewLine = true;
+            var conditions = andBlock.BuildSql(sqlOptions, FlowOptions.Construct(this));
             var command = sqlOptions.Command("WHERE");
-            return $"{command}{sqlOptions.NewLine()}{sqlOptions.Indent("     ")}{conditions}";
+            return $"{command}{sqlOptions.NewLine()}{sqlOptions.Indent("    ")}{conditions}";
         }
     }
 }

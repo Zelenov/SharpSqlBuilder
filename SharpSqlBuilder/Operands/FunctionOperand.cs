@@ -1,6 +1,7 @@
 ﻿using System;
 using SharpSqlBuilder.Extensions;
 using SharpSqlBuilder.Operands;
+using SharpSqlBuilder.Operators;
 
 namespace SharpSqlBuilder.Operands
 {
@@ -19,7 +20,7 @@ namespace SharpSqlBuilder.Operands
 
         public override string BuildSql(SqlOptions sqlOptions)
         {
-            var operand = Operand.BuildSql(sqlOptions);
+            var operand = Operand.BuildSql(sqlOptions, FlowOptions.Construct(this));
             var command = sqlOptions.Command(Command);
             return $"{command}({operand})";
         }

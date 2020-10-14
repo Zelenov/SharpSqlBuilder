@@ -2,6 +2,7 @@
 using SharpSqlBuilder.Entities;
 using SharpSqlBuilder.Extensions;
 using SharpSqlBuilder.Maps;
+using SharpSqlBuilder.Operators;
 
 namespace SharpSqlBuilder.Blocks
 {
@@ -25,7 +26,7 @@ namespace SharpSqlBuilder.Blocks
 
         public override string BuildSql(SqlOptions sqlOptions)
         {
-            var table = TableEntity.BuildSql(sqlOptions);
+            var table = TableEntity.BuildSql(sqlOptions, FlowOptions.Construct(this));
             var command = sqlOptions.Command("DELETE FROM");
             return $"{command} {table}";
         }

@@ -1,4 +1,5 @@
-﻿using SharpSqlBuilder.Maps;
+﻿using System.Linq;
+using SharpSqlBuilder.Maps;
 using SharpSqlBuilder.Operators;
 
 namespace SharpSqlBuilder.Operands
@@ -20,10 +21,13 @@ namespace SharpSqlBuilder.Operands
         public IsFalseOperator IsFalse() => new IsFalseOperator(this);
 
         public NotNullOperator NotNull() => new NotNullOperator(this);
+        public NotOperator Not() => new NotOperator(this);
 
         public EqualsOneOperator EqualsOne(Operand other) => new EqualsOneOperator(this, other);
 
         public EqualsAnyOperator EqualsAny(Operand other) => new EqualsAnyOperator(this, other);
+        public EqualsAllOperator EqualsAll(Operand other) => new EqualsAllOperator(this, other);
+        public NotEqualsOperator NotEquals(Operand other) => new NotEqualsOperator(this, other);
 
         public LessThanOperator LessThan(Operand other) => new LessThanOperator(this, other);
 
@@ -64,5 +68,17 @@ namespace SharpSqlBuilder.Operands
         public LTrimOperand LTrim() => new LTrimOperand(this);
         public RTrimOperand RTrim() => new RTrimOperand(this);
         public TrimOperand Trim() => new TrimOperand(this);
+
+        public OrOperator Or(params Operand[] operators)
+        {
+            return new OrOperator(new[] { this }.Concat(operators));
+        }
+
+        public AndOperator And(params Operand[] operators)
+        {
+            return new AndOperator(new[] { this }.Concat(operators));
+        }
+
+
     }
 }

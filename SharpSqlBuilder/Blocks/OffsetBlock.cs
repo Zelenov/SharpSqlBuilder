@@ -2,6 +2,7 @@
 using SharpSqlBuilder.Extensions;
 using SharpSqlBuilder.Maps;
 using SharpSqlBuilder.Operands;
+using SharpSqlBuilder.Operators;
 
 namespace SharpSqlBuilder.Blocks
 {
@@ -31,7 +32,7 @@ namespace SharpSqlBuilder.Blocks
 
         public override string BuildSql(SqlOptions sqlOptions)
         {
-            var offset = Offset?.BuildSql(sqlOptions);
+            var offset = Offset?.BuildSql(sqlOptions, FlowOptions.Construct(this));
             return $"{sqlOptions.Command("OFFSET")} {offset}";
         }
     }

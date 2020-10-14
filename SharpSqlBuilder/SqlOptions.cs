@@ -14,10 +14,15 @@ namespace SharpSqlBuilder
         public bool OneLine { get; set; } = false;
         public string IndentSymbol { get; set; } = "\t";
         public string NewLineSymbol { get; set; } = Environment.NewLine;
-
+        public int Tabs { get; set; }
         public SqlOptions Inlined()
         {
             OneLine = true;
+            return this;
+        }
+        public SqlOptions IncTabs()
+        {
+            Tabs+=1;
             return this;
         }
 

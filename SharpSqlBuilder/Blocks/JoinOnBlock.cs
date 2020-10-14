@@ -21,7 +21,7 @@ namespace SharpSqlBuilder.Blocks
         public override string BuildSql(SqlOptions sqlOptions)
         {
             var command = sqlOptions.Command("ON");
-            var property = Property.BuildSql(sqlOptions);
+            var property = Property.BuildSql(sqlOptions, FlowOptions.Construct(this));
             return $"{command} {property}";
         }
     }

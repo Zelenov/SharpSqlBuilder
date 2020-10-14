@@ -3,6 +3,7 @@ using SharpSqlBuilder.Entities;
 using SharpSqlBuilder.Extensions;
 using SharpSqlBuilder.Maps;
 using SharpSqlBuilder.Operands;
+using SharpSqlBuilder.Operators;
 
 namespace SharpSqlBuilder.Blocks
 {
@@ -25,8 +26,8 @@ namespace SharpSqlBuilder.Blocks
 
         public override string BuildSql(SqlOptions sqlOptions)
         {
-            var columnName = ColumnName.BuildSql(sqlOptions);
-            var value = Value.BuildSql(sqlOptions);
+            var columnName = ColumnName.BuildSql(sqlOptions, FlowOptions.Construct(this));
+            var value = Value.BuildSql(sqlOptions, FlowOptions.Construct(this));
             return $"{columnName} = {value}";
         }
     }

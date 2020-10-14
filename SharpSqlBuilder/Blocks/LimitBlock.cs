@@ -2,6 +2,7 @@
 using SharpSqlBuilder.Builders;
 using SharpSqlBuilder.Extensions;
 using SharpSqlBuilder.Operands;
+using SharpSqlBuilder.Operators;
 
 namespace SharpSqlBuilder.Blocks
 {
@@ -33,7 +34,7 @@ namespace SharpSqlBuilder.Blocks
                     break;
             }
 
-            var limitBy = LimitBy?.BuildSql(sqlOptions);
+            var limitBy = LimitBy?.BuildSql(sqlOptions, FlowOptions.Construct(this));
             return $"{command} {limitBy}";
         }
     }

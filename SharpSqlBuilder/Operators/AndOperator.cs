@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using SharpSqlBuilder.Builders;
 using SharpSqlBuilder.Extensions;
+using SharpSqlBuilder.Operands;
 
 namespace SharpSqlBuilder.Operators
 {
@@ -9,18 +11,23 @@ namespace SharpSqlBuilder.Operators
     /// </summary>
     public class AndOperator : ChainOperator
     {
-        public AndOperator(params Operator[] operands) : base(operands)
+        protected override string Command { get; } = "AND";
+        
+        public AndOperator(params Operand[] operands) : base(operands)
         {
         }
 
-        public AndOperator(IEnumerable<Operator> operators) : base(operators)
+        public AndOperator(IEnumerable<Operand> operators) : base(operators)
         {
         }
 
-        public override string BuildSql(SqlOptions sqlOptions)
+        public override int GetPriority(SqlOptions options)
         {
-            var conditions = Entities.Select(o => $"( {o.BuildSql(sqlOptions)} )");
-            return string.Join(sqlOptions.Command(" AND "), conditions);
+            switch (options.DatabaseType)
+            {
+                case SqlDatabaseType.Postgres: return 19;
+                default: return 6;
+            }
         }
     }
 }

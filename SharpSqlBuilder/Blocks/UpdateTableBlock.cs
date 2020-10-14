@@ -2,6 +2,7 @@
 using SharpSqlBuilder.Entities;
 using SharpSqlBuilder.Extensions;
 using SharpSqlBuilder.Maps;
+using SharpSqlBuilder.Operators;
 
 namespace SharpSqlBuilder.Blocks
 {
@@ -22,7 +23,7 @@ namespace SharpSqlBuilder.Blocks
         public override string BuildSql(SqlOptions sqlOptions)
         {
             var command = sqlOptions.Command("UPDATE");
-            var tableName = TableName.BuildSql(sqlOptions);
+            var tableName = TableName.BuildSql(sqlOptions, FlowOptions.Construct(this));
             return $"{command} {tableName}";
         }
     }

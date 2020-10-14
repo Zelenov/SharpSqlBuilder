@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using SharpSqlBuilder.Builders;
 using SharpSqlBuilder.Entities;
+using SharpSqlBuilder.Operators;
 
 namespace SharpSqlBuilder.Blocks
 {
@@ -11,7 +12,7 @@ namespace SharpSqlBuilder.Blocks
     {
         public override string BuildSql(SqlOptions sqlOptions)
         {
-            var keys = string.Join(", ", Entities.Select(e => e.BuildSql(sqlOptions)));
+            var keys = string.Join(", ", Entities.Select(e => e.BuildSql(sqlOptions, FlowOptions.Construct(this))));
             string command;
             switch (sqlOptions.DatabaseType)
             {

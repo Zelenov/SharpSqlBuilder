@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using SharpSqlBuilder.Builders;
 using SharpSqlBuilder.Extensions;
+using SharpSqlBuilder.Operands;
 
 namespace SharpSqlBuilder.Operators
 {
@@ -9,18 +11,21 @@ namespace SharpSqlBuilder.Operators
     /// </summary>
     public class OrOperator : ChainOperator
     {
-        public OrOperator(params Operator[] operators) : base(operators)
+        protected override string Command { get; } = "OR";
+        public override int GetPriority(SqlOptions options)
+        {
+            switch (options.DatabaseType)
+            {
+                case SqlDatabaseType.Postgres: return 20;
+                default: return 7;
+            }
+        }
+        public OrOperator(params Operand[] operators) : base(operators)
         {
         }
 
-        public OrOperator(IEnumerable<Operator> operators) : base(operators)
+        public OrOperator(IEnumerable<Operand> operators) : base(operators)
         {
-        }
-
-        public override string BuildSql(SqlOptions sqlOptions)
-        {
-            var operators = Entities.Select(o => $"{o.BuildSql(sqlOptions)}");
-            return string.Join($" {sqlOptions.Command("OR")} ", operators);
         }
     }
 }

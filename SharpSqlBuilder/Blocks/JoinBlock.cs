@@ -46,8 +46,8 @@ namespace SharpSqlBuilder.Blocks
             }
 
             var command = sqlOptions.Command(joinType);
-            var table = TableEntity.BuildSql(sqlOptions);
-            var on = OnBlock.BuildSql(sqlOptions);
+            var table = TableEntity.BuildSql(sqlOptions, FlowOptions.Construct(this));
+            var on = OnBlock.BuildSql(sqlOptions, FlowOptions.Construct(this));
             return $"{command} {table} {on}";
         }
     }

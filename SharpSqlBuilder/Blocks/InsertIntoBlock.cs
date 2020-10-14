@@ -1,6 +1,7 @@
 ﻿using System;
 using SharpSqlBuilder.Entities;
 using SharpSqlBuilder.Extensions;
+using SharpSqlBuilder.Operators;
 
 namespace SharpSqlBuilder.Blocks
 {
@@ -20,7 +21,7 @@ namespace SharpSqlBuilder.Blocks
 
         public override string BuildSql(SqlOptions sqlOptions)
         {
-            var tableName = Entity.BuildSql(sqlOptions);
+            var tableName = Entity.BuildSql(sqlOptions, FlowOptions.Construct(this));
             var command = sqlOptions.Command("INSERT INTO");
             return $"{command} {tableName}";
         }

@@ -281,13 +281,13 @@ namespace SharpSqlBuilder.Tests
             INNER JOIN foo.class2 ON class2.key = class1.id
             /* JOIN */
             WHERE
-	                 (@Ids IS NULL OR class1.id = ANY(@Ids))
-	             AND (@Value1 IS NULL OR class1.value1 = @Value1)
-	             AND (@Key IS NULL OR class2.key = @Key)
-	             AND (@DbGeneratedKey IS NULL OR class2.key_db_generated = @DbGeneratedKey)
-	             AND (class2.key ILIKE @Key)
-	             AND (class2.key LIKE @Key)
-	             AND (LOWER(class2.key) LIKE LOWER(@Key))
+	                (@Ids IS NULL OR class1.id = ANY(@Ids))
+	            AND (@Value1 IS NULL OR class1.value1 = @Value1)
+	            AND (@Key IS NULL OR class2.key = @Key)
+	            AND (@DbGeneratedKey IS NULL OR class2.key_db_generated = @DbGeneratedKey)
+	            AND class2.key ILIKE @Key
+	            AND class2.key LIKE @Key
+	            AND LOWER(class2.key) LIKE LOWER(@Key)
             /* WHERE */
             ORDER BY
 	            class1.id ASC
@@ -394,6 +394,31 @@ namespace SharpSqlBuilder.Tests
 	            auto AS Auto
             /* RETURNING */
             ";
+            Check(expected, actual);
+        }
+
+        [Test]
+        public void SqlBuilder_Priority1_EqualsExpected()
+        {
+            var a = Operand.From("A");
+            var b = Operand.From("B");
+            var sqlOptions = new SqlOptions { Dialect = SqlDialect.Postgres95, OneLine = true };
+            var sqlBuilder = a.EqualsOne(b).Or(a.EqualsOne(b).Not().And(a.LessThan(b)));
+
+            var actual = sqlBuilder.BuildSql(sqlOptions);
+            var expected = @"A = B OR NOT A = B AND A < B";
+            Check(expected, actual);
+        }
+        [Test]
+        public void SqlBuilder_Priority2_EqualsExpected()
+        {
+            var a = Operand.From("A");
+            var b = Operand.From("B");
+            var sqlOptions = new SqlOptions { Dialect = SqlDialect.Postgres95, OneLine = true };
+            var sqlBuilder = a.NotEquals(a.Or(b).And(a.EqualsOne(b)).Not());
+
+            var actual = sqlBuilder.BuildSql(sqlOptions);
+            var expected = @"A <> (NOT ((A OR B) AND A = B))";
             Check(expected, actual);
         }
 

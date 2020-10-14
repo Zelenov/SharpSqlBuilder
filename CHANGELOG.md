@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.6
+### Fixed
+Auto brackets for all the operators (tested for postgres).
+NotOperator
+NotEqualsOperator
+EqualsAllOperator
+
 ## 0.5.1
 ### Fixed
 NotExistsOperator fix

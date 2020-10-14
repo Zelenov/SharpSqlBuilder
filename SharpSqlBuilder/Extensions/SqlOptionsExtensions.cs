@@ -1,4 +1,6 @@
-﻿namespace SharpSqlBuilder.Extensions
+﻿using System.Linq;
+
+namespace SharpSqlBuilder.Extensions
 {
     public static class SqlOptionsExtensions
     {
@@ -29,15 +31,7 @@
             if (sqlOptions.OneLine)
                 return "";
 
-            return sqlOptions.IndentSymbol + additionalIndent;
-        }
-
-        public static string NewLineIndent(this SqlOptions sqlOptions)
-        {
-            if (sqlOptions.OneLine)
-                return " ";
-
-            return sqlOptions.NewLineSymbol;
+            return string.Join("",  Enumerable.Repeat(sqlOptions.IndentSymbol, sqlOptions.Tabs + 1)) + additionalIndent;
         }
     }
 }

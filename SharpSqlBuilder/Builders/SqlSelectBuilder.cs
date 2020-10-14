@@ -222,7 +222,7 @@ namespace SharpSqlBuilder.Builders
                 LimitBlock,
                 CustomSqlBlocks[SqlSelectPosition.Limit]
             };
-            var commands = data.Where(b => CheckBlock(b, sqlOptions)).Select(b => b.BuildSql(sqlOptions));
+            var commands = data.Where(b => CheckBlock(b, sqlOptions)).Select(b => b.BuildSql(sqlOptions, FlowOptions.Construct(this)));
             return string.Join(sqlOptions.NewLine(), commands);
         }
     }

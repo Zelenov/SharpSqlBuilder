@@ -2,6 +2,7 @@
 using SharpSqlBuilder.Extensions;
 using SharpSqlBuilder.Maps;
 using SharpSqlBuilder.Operands;
+using SharpSqlBuilder.Operators;
 
 namespace SharpSqlBuilder.Blocks
 {
@@ -37,7 +38,7 @@ namespace SharpSqlBuilder.Blocks
             }
 
             var command = sqlOptions.Command(dir);
-            var orderItem = OrderItemOperand?.BuildSql(sqlOptions) ??
+            var orderItem = OrderItemOperand?.BuildSql(sqlOptions, FlowOptions.Construct(this)) ??
                 throw new ArgumentException(nameof(OrderItemOperand));
             return $"{orderItem} {command}";
         }

@@ -3,7 +3,7 @@ using SharpSqlBuilder.Operands;
 
 namespace SharpSqlBuilder.Operators
 {
-    public abstract class UnaryOperator : Operator
+    public abstract class UnaryOperator : PriorityOperator
     {
         public readonly Operand Operand;
 

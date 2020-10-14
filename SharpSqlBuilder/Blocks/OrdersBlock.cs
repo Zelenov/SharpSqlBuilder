@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using SharpSqlBuilder.Extensions;
 using SharpSqlBuilder.Maps;
+using SharpSqlBuilder.Operators;
 
 namespace SharpSqlBuilder.Blocks
 {
@@ -36,7 +37,7 @@ namespace SharpSqlBuilder.Blocks
 
         public override string BuildSql(SqlOptions sqlOptions)
         {
-            var orders = Entities.Select(s => s.BuildSql(sqlOptions));
+            var orders = Entities.Select(s => s.BuildSql(sqlOptions, FlowOptions.Construct(this)));
             var order = string.Join($",{sqlOptions.NewLine()}{sqlOptions.Indent()}", orders);
             return $"{sqlOptions.Command("ORDER BY")}{sqlOptions.NewLine()}{sqlOptions.Indent()}{order}";
         }

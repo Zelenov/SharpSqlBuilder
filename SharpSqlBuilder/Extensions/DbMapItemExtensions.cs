@@ -45,6 +45,38 @@ namespace SharpSqlBuilder.Extensions
             Operand.From(self ?? throw new ArgumentException(nameof(self)))
                .EqualsAny(Operand.From(other) ?? throw new ArgumentException(nameof(self)));
 
+        public static EqualsAllOperator EqualsAll(this SqlColumn self, SqlColumn other) =>
+            Operand.From(self ?? throw new ArgumentException(nameof(self)))
+               .EqualsAll(Operand.From(other) ?? throw new ArgumentException(nameof(self)));
+
+        public static EqualsAllOperator EqualsAll(this SqlColumn self, SqlFilterItem other) =>
+            Operand.From(self ?? throw new ArgumentException(nameof(self)))
+               .EqualsAll(Operand.From(other) ?? throw new ArgumentException(nameof(self)));
+
+        public static EqualsAllOperator EqualsAll(this SqlFilterItem self, SqlFilterItem other) =>
+            Operand.From(self ?? throw new ArgumentException(nameof(self)))
+               .EqualsAll(Operand.From(other) ?? throw new ArgumentException(nameof(self)));
+
+        public static EqualsAllOperator EqualsAll(this SqlColumn self, string other) =>
+            Operand.From(self ?? throw new ArgumentException(nameof(self)))
+               .EqualsAll(Operand.From(other) ?? throw new ArgumentException(nameof(self)));
+
+        public static NotEqualsOperator NotEquals(this SqlColumn self, SqlColumn other) =>
+            Operand.From(self ?? throw new ArgumentException(nameof(self)))
+               .NotEquals(Operand.From(other) ?? throw new ArgumentException(nameof(self)));
+
+        public static NotEqualsOperator NotEquals(this SqlColumn self, SqlFilterItem other) =>
+            Operand.From(self ?? throw new ArgumentException(nameof(self)))
+               .NotEquals(Operand.From(other) ?? throw new ArgumentException(nameof(self)));
+
+        public static NotEqualsOperator NotEquals(this SqlFilterItem self, SqlFilterItem other) =>
+            Operand.From(self ?? throw new ArgumentException(nameof(self)))
+               .NotEquals(Operand.From(other) ?? throw new ArgumentException(nameof(self)));
+
+        public static NotEqualsOperator NotEquals(this SqlColumn self, string other) =>
+            Operand.From(self ?? throw new ArgumentException(nameof(self)))
+               .NotEquals(Operand.From(other) ?? throw new ArgumentException(nameof(self)));
+
         public static LessThanOperator LessThan(this SqlColumn self, SqlColumn other) =>
             Operand.From(self ?? throw new ArgumentException(nameof(self)))
                .LessThan(Operand.From(other) ?? throw new ArgumentException(nameof(self)));
@@ -126,6 +158,12 @@ namespace SharpSqlBuilder.Extensions
 
         public static NotNullOperator NotNull(this SqlFilterItem self) =>
             Operand.From(self ?? throw new ArgumentException(nameof(self))).NotNull();
+
+        public static NotOperator Not(this SqlColumn self) =>
+            Operand.From(self ?? throw new ArgumentException(nameof(self))).Not();
+
+        public static NotOperator Not(this SqlFilterItem self) =>
+            Operand.From(self ?? throw new ArgumentException(nameof(self))).Not();
 
         public static IsNullOperator IsNull(this SqlColumn self) =>
             Operand.From(self ?? throw new ArgumentException(nameof(self))).IsNull();
