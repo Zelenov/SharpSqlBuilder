@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.1
+### Fixed
+NotExistsOperator fix
+
 ## 0.5
 ### Added
 EXISTS and NOT EXISTS Operators
