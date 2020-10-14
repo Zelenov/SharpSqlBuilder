@@ -238,6 +238,7 @@ namespace SharpSqlBuilder.Tests
                    .Or(table2[m => m.DbGeneratedKey].EqualsOne(sqlFilter[f => f.DbGeneratedKey])),
 
                 table2[m => m.Key].ILike(sqlFilter[f => f.Key]),
+                table2[m => m.Key].Like(sqlFilter[f => f.Key]),
                 table2[m => m.Key].Lower().Like(sqlFilter[f => f.Key].Lower()),
             };
 

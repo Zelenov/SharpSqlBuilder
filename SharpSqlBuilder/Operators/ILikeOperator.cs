@@ -26,10 +26,7 @@ namespace SharpSqlBuilder.Operators
                 }
                 default:
                 {
-                    var left = LeftOperand.Lower().BuildSql(sqlOptions);
-                    var right = RightOperand.Lower().BuildSql(sqlOptions);
-                    var command = sqlOptions.Command("LIKE");
-                    return $"{left} {command} {right}";
+                    return new LikeOperator(LeftOperand.Lower(), RightOperand.Lower()).BuildSql(sqlOptions);
                 }
             }
         }

@@ -132,7 +132,21 @@ namespace SharpSqlBuilder.Extensions
 
         public static IsNullOperator IsNull(this SqlFilterItem self) =>
             Operand.From(self ?? throw new ArgumentException(nameof(self))).IsNull();
+        public static LikeOperator Like(this SqlColumn self, SqlColumn other) =>
+            Operand.From(self ?? throw new ArgumentException(nameof(self)))
+               .Like(Operand.From(other) ?? throw new ArgumentException(nameof(self)));
 
+        public static LikeOperator Like(this SqlColumn self, SqlFilterItem other) =>
+            Operand.From(self ?? throw new ArgumentException(nameof(self)))
+               .Like(Operand.From(other) ?? throw new ArgumentException(nameof(self)));
+
+        public static LikeOperator Like(this SqlFilterItem self, SqlFilterItem other) =>
+            Operand.From(self ?? throw new ArgumentException(nameof(self)))
+               .Like(Operand.From(other) ?? throw new ArgumentException(nameof(self)));
+
+        public static LikeOperator Like(this SqlColumn self, string other) =>
+            Operand.From(self ?? throw new ArgumentException(nameof(self)))
+               .Like(Operand.From(other) ?? throw new ArgumentException(nameof(self)));
         public static ILikeOperator ILike(this SqlColumn self, SqlColumn other) =>
             Operand.From(self ?? throw new ArgumentException(nameof(self)))
                .ILike(Operand.From(other) ?? throw new ArgumentException(nameof(self)));

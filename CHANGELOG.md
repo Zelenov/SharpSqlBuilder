@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.1
+### Fixed
+Operator Like returned
+
 ## 0.4
 ### Added
 Operator ILike
