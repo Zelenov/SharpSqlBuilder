@@ -33,5 +33,36 @@ namespace SharpSqlBuilder.Operands
 
         public MoreOrEqualToOperator MoreOrEqualTo(Operand other) => new MoreOrEqualToOperator(this, other);
         public LikeOperator Like(Operand other) => new LikeOperator(this, other);
+        public ILikeOperator ILike(Operand other) => new ILikeOperator(this, other);
+        public AbsOperand Abs() => new AbsOperand(this);
+        public AcosOperand Acos() => new AcosOperand(this);
+        public AsinOperand Asin() => new AsinOperand(this);
+        public AtanOperand Atan() => new AtanOperand(this);
+        public Atn2Operand Atn2() => new Atn2Operand(this);
+        public AvgOperand Avg() => new AvgOperand(this);
+        public CeilingOperand Ceiling() => new CeilingOperand(this);
+        public CountOperand Count() => new CountOperand(this);
+        public CosOperand Cos() => new CosOperand(this);
+        public CotOperand Cot() => new CotOperand(this);
+        public DegreesOperand Degrees() => new DegreesOperand(this);
+        public ExpOperand Exp() => new ExpOperand(this);
+        public FloorOperand Floor() => new FloorOperand(this);
+        public LogOperand Log() => new LogOperand(this);
+        public Log10Operand Log10() => new Log10Operand(this);
+        public MaxOperand Max() => new MaxOperand(this);
+        public MinOperand Min() => new MinOperand(this);
+        public RadiansOperand Radians() => new RadiansOperand(this);
+        public RoundOperand Round() => new RoundOperand(this);
+        public SignOperand Sign() => new SignOperand(this);
+        public SinOperand Sin() => new SinOperand(this);
+        public SqrtOperand Sqrt() => new SqrtOperand(this);
+        public SquareOperand Square() => new SquareOperand(this);
+        public SumOperand Sum() => new SumOperand(this);
+        public TanOperand Tan() => new TanOperand(this);
+        public LowerOperand Lower() => new LowerOperand(this);
+        public UpperOperand Upper() => new UpperOperand(this);
+        public LTrimOperand LTrim() => new LTrimOperand(this);
+        public RTrimOperand RTrim() => new RTrimOperand(this);
+        public TrimOperand Trim() => new TrimOperand(this);
     }
 }

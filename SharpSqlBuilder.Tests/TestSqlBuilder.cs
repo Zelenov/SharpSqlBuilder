@@ -7,6 +7,8 @@ using SharpSqlBuilder.Extensions;
 using SharpSqlBuilder.Maps;
 using SharpSqlBuilder.Tests.Common;
 using NUnit.Framework;
+using SharpSqlBuilder.Operands;
+using SharpSqlBuilder.Operators;
 
 namespace SharpSqlBuilder.Tests
 {
@@ -225,7 +227,7 @@ namespace SharpSqlBuilder.Tests
                 Key = Guid.Empty,
                 DbGeneratedKey = 2
             });
-            var whereSql = new[]
+            var whereSql = new Operator[]
             {
                 Conditions.Or(sqlFilter[f => f.Ids].IsNull(), table1[m => m.Id].EqualsAny(sqlFilter[f => f.Ids])),
                 Conditions.Or(sqlFilter[f => f.Value1].IsNull(),
@@ -233,7 +235,10 @@ namespace SharpSqlBuilder.Tests
                 Conditions.Or(sqlFilter[f => f.Key].IsNull(), table2[m => m.Key].EqualsOne(sqlFilter[f => f.Key])),
                 sqlFilter[f => f.DbGeneratedKey]
                    .IsNull()
-                   .Or(table2[m => m.DbGeneratedKey].EqualsOne(sqlFilter[f => f.DbGeneratedKey]))
+                   .Or(table2[m => m.DbGeneratedKey].EqualsOne(sqlFilter[f => f.DbGeneratedKey])),
+
+                table2[m => m.Key].ILike(sqlFilter[f => f.Key]),
+                table2[m => m.Key].Lower().Like(sqlFilter[f => f.Key].Lower()),
             };
 
             var sqlBuilder = SqlBuilder.Select.Values(table1, table2)
@@ -279,6 +284,8 @@ namespace SharpSqlBuilder.Tests
 	             AND (@Value1 IS NULL OR class1.value1 = @Value1)
 	             AND (@Key IS NULL OR class2.key = @Key)
 	             AND (@DbGeneratedKey IS NULL OR class2.key_db_generated = @DbGeneratedKey)
+	             AND (class2.key ILIKE @Key)
+	             AND (LOWER(class2.key) LIKE LOWER(@Key))
             /* WHERE */
             ORDER BY
 	            class1.id ASC

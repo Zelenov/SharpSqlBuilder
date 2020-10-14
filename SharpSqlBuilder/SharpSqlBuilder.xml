@@ -167,6 +167,156 @@
             <example>FALSE</example>
             </summary>
         </member>
+        <member name="T:SharpSqlBuilder.Operands.AbsOperand">
+            <summary>
+            <example>ABS(...)</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.AcosOperand">
+            <summary>
+            <example>ACOS(...)</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.AsinOperand">
+            <summary>
+            <example>ASIN(...)</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.AtanOperand">
+            <summary>
+            <example>ATAN(...)</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.Atn2Operand">
+            <summary>
+            <example>ATN2(...)</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.AvgOperand">
+            <summary>
+            <example>AVG(...)</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.CeilingOperand">
+            <summary>
+            <example>CEILING(...)</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.CosOperand">
+            <summary>
+            <example>COS(...)</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.CotOperand">
+            <summary>
+            <example>COT(...)</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.CountOperand">
+            <summary>
+            <example>COUNT(...)</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.DegreesOperand">
+            <summary>
+            <example>DEGREES(...)</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.ExpOperand">
+            <summary>
+            <example>EXP(...)</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.FloorOperand">
+            <summary>
+            <example>FLOOR(...)</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.Log10Operand">
+            <summary>
+            <example>LOG10(...)</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.LogOperand">
+            <summary>
+            <example>LOG(...)</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.LowerOperand">
+            <summary>
+            <example>LOWER(...)</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.LTrimOperand">
+            <summary>
+            <example>LTRIM(...)</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.MaxOperand">
+            <summary>
+            <example>MAX(...)</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.MinOperand">
+            <summary>
+            <example>MIN(...)</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.RadiansOperand">
+            <summary>
+            <example>RADIANS(...)</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.RoundOperand">
+            <summary>
+            <example>ROUND(...)</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.RTrimOperand">
+            <summary>
+            <example>RTRIM(...)</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.SignOperand">
+            <summary>
+            <example>SIGN(...)</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.SinOperand">
+            <summary>
+            <example>SIN(...)</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.SqrtOperand">
+            <summary>
+            <example>SQRT(...)</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.SquareOperand">
+            <summary>
+            <example>SQUARE(...)</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.SumOperand">
+            <summary>
+            <example>SUM(...)</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.TanOperand">
+            <summary>
+            <example>TAN(...)</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.TrimOperand">
+            <summary>
+            <example>TRIM(...)</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operands.UpperOperand">
+            <summary>
+            <example>UPPER(...)</example>
+            </summary>
+        </member>
         <member name="T:SharpSqlBuilder.Operands.TableColumnOperand">
             <summary>
                 TableName + ColumnName Pair
@@ -196,6 +346,11 @@
         <member name="T:SharpSqlBuilder.Operators.EqualsOneOperator">
             <summary>
             <example>... = ...</example>
+            </summary>
+        </member>
+        <member name="T:SharpSqlBuilder.Operators.ILikeOperator">
+            <summary>
+            <example>... ILIKE ...</example>
             </summary>
         </member>
         <member name="T:SharpSqlBuilder.Operators.IsFalseOperator">
