@@ -1,18 +1,16 @@
-﻿using SharpSqlBuilder.Extensions;
+﻿using SharpSqlBuilder.Operands;
 
 namespace SharpSqlBuilder.Blocks
 {
     /// <summary>
-    /// <example>SELECT *</example>
+    ///     SqlColumn AS PropertyName block
+    ///     <example>column AS PropertyName</example>
     /// </summary>
-    public class SelectStarBlock : SqlBuilderEntity
+    public class SelectStarBlock : SelectColumnBlockBase
     {
-        public override bool Present(SqlOptions sqlOptions) => true;
+        public StarEntity Entity = StarEntity.Instance;
+        public override bool Present(SqlOptions sqlOptions) => Entity.Present(sqlOptions);
 
-        public override string BuildSql(SqlOptions sqlOptions)
-        {
-            var command = sqlOptions.Command("SELECT");
-            return $"{command} *";
-        }
+        public override string BuildSql(SqlOptions sqlOptions) => Entity.BuildSql(sqlOptions);
     }
 }

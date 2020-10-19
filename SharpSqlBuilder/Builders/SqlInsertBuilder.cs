@@ -9,7 +9,7 @@ using SharpSqlBuilder.Operators;
 
 namespace SharpSqlBuilder.Builders
 {
-    public class SqlInsertBuilder : SqlBuilderBase
+    public class SqlInsertBuilder : SqlBuilderEntity
     {
         protected readonly OnConflictBlock ConflictUpdate = new OnConflictBlock();
 

@@ -13,5 +13,9 @@ namespace SharpSqlBuilder
         {
             return BuildSql(sqlOptions);
         }
+        protected void CheckBeforeBuild(SqlOptions sqlBuilder)
+        {
+        }
+        protected bool CheckBlock(SqlBuilderEntity block, SqlOptions options) => block?.Present(options) == true;
     }
 }

@@ -16,7 +16,12 @@ namespace SharpSqlBuilder.Entities
             PropertyName = sqlColumn?.PropertyName ?? throw new ArgumentException(nameof(sqlColumn));
         }
 
-        public override bool Present(SqlOptions sqlOptions) => true;
+        public OutputValueEntity(string propertyName)
+        {
+            PropertyName = propertyName;
+        }
+
+        public override bool Present(SqlOptions sqlOptions) => !string.IsNullOrEmpty(PropertyName);
 
         public override string BuildSql(SqlOptions sqlOptions)
         {

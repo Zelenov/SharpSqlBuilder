@@ -9,7 +9,7 @@ using SharpSqlBuilder.Operators;
 
 namespace SharpSqlBuilder.Builders
 {
-    public class SqlUpdateBuilder : SqlBuilderBase
+    public class SqlUpdateBuilder : SqlBuilderEntity
     {
         protected readonly UpdateColumnsBlock ColumnsBlock = new UpdateColumnsBlock();
 

@@ -43,11 +43,6 @@ namespace SharpSqlBuilder.Extensions
 
         public static CeilingOperand Ceiling(this SqlFilterItem self) =>
             Operand.From(self ?? throw new ArgumentException(nameof(self))).Ceiling();
-        public static CountOperand Count(this SqlColumn self) =>
-                    Operand.From(self ?? throw new ArgumentException(nameof(self))).Count();
-
-        public static CountOperand Count(this SqlFilterItem self) =>
-            Operand.From(self ?? throw new ArgumentException(nameof(self))).Count();
         public static CosOperand Cos(this SqlColumn self) =>
                     Operand.From(self ?? throw new ArgumentException(nameof(self))).Cos();
 

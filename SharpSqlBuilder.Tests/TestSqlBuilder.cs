@@ -422,6 +422,91 @@ namespace SharpSqlBuilder.Tests
             Check(expected, actual);
         }
 
+        [Test]
+        public void SqlBuilder_Eq1_EqualsExpected()
+        {
+            var a = Operand.From("A");
+            var b = Operand.From("B");
+            var c = Operand.From("C");
+            var sqlOptions = new SqlOptions { Dialect = SqlDialect.Postgres95, OneLine = true };
+            var sqlBuilder = a.IsTrue().Or(b.IsTrue()).EqualsOne(c);
+
+            var actual = sqlBuilder.BuildSql(sqlOptions);
+            var expected = @"(A = TRUE OR B = TRUE) = C";
+            Check(expected, actual);
+        }
+        [Test]
+        public void SqlBuilder_Eq2_EqualsExpected()
+        {
+            var a = Operand.From("A");
+            var b = Operand.From("B");
+            var c = Operand.From("C");
+            var sqlOptions = new SqlOptions { Dialect = SqlDialect.Postgres95, OneLine = true };
+            var sqlBuilder = c.EqualsOne( a.IsTrue().Or(b.IsTrue()));
+
+            var actual = sqlBuilder.BuildSql(sqlOptions);
+            var expected = @"C = (A = TRUE OR B = TRUE)";
+            Check(expected, actual);
+        }
+        [Test]
+        public void SqlBuilder_SelectStar_EqualsExpected()
+        {
+            var table = new SqlTable<Class1>();
+            var sqlOptions = new SqlOptions { Dialect = SqlDialect.Postgres95 };
+            var sqlBuilder = SqlBuilder.Select
+               .Star()
+               .From(table);
+
+
+            var actual = sqlBuilder.BuildSql(sqlOptions);
+            var expected = @"
+            SELECT
+              *
+            FROM foo.class1
+            ";
+            Check(expected, actual);
+            Assert.AreEqual("", sqlBuilder.SplitOn);
+        }
+        [Test]
+        public void SqlBuilder_SelectCountStar_EqualsExpected()
+        {
+            var table = new SqlTable<Class1>();
+            var sqlOptions = new SqlOptions { Dialect = SqlDialect.Postgres95 };
+            var sqlBuilder = SqlBuilder.Select
+               .CountStar()
+               .From(table);
+
+
+            var actual = sqlBuilder.BuildSql(sqlOptions);
+            var expected = @"
+            SELECT
+              COUNT(*)
+            FROM foo.class1
+            ";
+            Check(expected, actual);
+            Assert.AreEqual("", sqlBuilder.SplitOn);
+        }
+        [Test]
+        public void SqlBuilder_SelectSum_EqualsExpected()
+        {
+            var table = new SqlTable<Class1>();
+            var sqlOptions = new SqlOptions { Dialect = SqlDialect.Postgres95 };
+            var sqlBuilder = SqlBuilder.Select
+               .Value(SqlBuilder.Select.Value(Operand.From(table[t=>t.Value2])).From(table).Sum())
+               .From(table);
+
+
+            var actual = sqlBuilder.BuildSql(sqlOptions);
+            var expected = @"
+            SELECT
+	            SUM(SELECT
+	                    class1.value2
+                    FROM foo.class1)
+            FROM foo.class1
+            ";
+            Check(expected, actual);
+            Assert.AreEqual("", sqlBuilder.SplitOn);
+        }
 
 
         private void Check(string expected, string actual)

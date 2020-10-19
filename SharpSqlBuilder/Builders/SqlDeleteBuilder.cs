@@ -9,7 +9,7 @@ using SharpSqlBuilder.Operators;
 
 namespace SharpSqlBuilder.Builders
 {
-    public class SqlDeleteBuilder : SqlBuilderBase
+    public class SqlDeleteBuilder : SqlBuilderEntity
     {
         protected readonly Dictionary<SqlDeletePosition, CustomSqlBlock> CustomBlocks =
             new Dictionary<SqlDeletePosition, CustomSqlBlock>

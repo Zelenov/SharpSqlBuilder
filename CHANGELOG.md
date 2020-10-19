@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.7
+### Added
+Aggregate Functions — Count, Every, Max, Min, Sum
+Aggregate Functions and other operands in selects.
+
 ## 0.6
 ### Fixed
 Auto brackets for all the operators (tested for postgres).

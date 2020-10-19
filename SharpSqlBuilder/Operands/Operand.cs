@@ -45,7 +45,6 @@ namespace SharpSqlBuilder.Operands
         public Atn2Operand Atn2() => new Atn2Operand(this);
         public AvgOperand Avg() => new AvgOperand(this);
         public CeilingOperand Ceiling() => new CeilingOperand(this);
-        public CountOperand Count() => new CountOperand(this);
         public CosOperand Cos() => new CosOperand(this);
         public CotOperand Cot() => new CotOperand(this);
         public DegreesOperand Degrees() => new DegreesOperand(this);

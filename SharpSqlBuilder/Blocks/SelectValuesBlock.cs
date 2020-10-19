@@ -7,7 +7,7 @@ namespace SharpSqlBuilder.Blocks
     /// <summary>
     /// <example>SELECT ..., ..., ...</example>
     /// </summary>
-    public class SelectValuesBlock : CollectionBlock<SelectColumnBlock>
+    public class SelectValuesBlock : CollectionBlock<SelectColumnBlockBase>
     {
         public override string BuildSql(SqlOptions sqlOptions)
         {
