@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.7.1
+### Fixed
+Select Refactoring
+
 ## 0.7
 ### Added
 Aggregate Functions — Count, Every, Max, Min, Sum

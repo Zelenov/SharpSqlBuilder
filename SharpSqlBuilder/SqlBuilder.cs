@@ -13,14 +13,7 @@ namespace SharpSqlBuilder
         {
             public static SqlInsertBuilder Into(SqlTable sqlTable) => new SqlInsertBuilder(sqlTable);
         }
-        public static class Select
-        {
-            public static SqlSelectBuilder Values(params SqlTable[] sqlTables) => new SqlSelectBuilder().Values(sqlTables);
-            public static SqlSelectBuilder Star() => new SqlSelectBuilder().Star();
-            public static SqlSelectBuilder CountStar() => new SqlSelectBuilder().CountStar();
-            public static SqlSelectBuilder Value(Operand operand) => new SqlSelectBuilder().Value(operand);
-            public static SqlSelectBuilder Values(IEnumerable<Operand> sqlColumns) => new SqlSelectBuilder().Values(sqlColumns);
-        }
+        public static SqlSelectBuilder Select => new SqlSelectBuilder();
 
         public static class Delete
         {
