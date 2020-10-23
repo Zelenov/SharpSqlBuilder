@@ -20,13 +20,14 @@ namespace SharpSqlBuilder.Builders
                 {SqlInsertPosition.Into, new CustomSqlBlock()},
                 {SqlInsertPosition.Values, new CustomSqlBlock()},
                 {SqlInsertPosition.Conflict, new CustomSqlBlock()},
-                {SqlInsertPosition.DoUpdate, new CustomSqlBlock()},
+                {SqlInsertPosition.Do, new CustomSqlBlock()},
                 {SqlInsertPosition.Where, new CustomSqlBlock()},
                 {SqlInsertPosition.Return, new CustomSqlBlock()}
             };
 
         protected readonly SqlTable SqlTable;
         protected readonly DoUpdateBlock DoUpdateBlock = new DoUpdateBlock();
+        protected DoNothingBlock DoNothingBlock;
         protected readonly InsertColumnsBlock InsertColumnsBlock = new InsertColumnsBlock();
         protected readonly InsertIntoBlock InsertIntoBlock;
         protected readonly InsertValuesBlock InsertValuesBlock = new InsertValuesBlock();
@@ -74,7 +75,13 @@ namespace SharpSqlBuilder.Builders
         public SqlInsertBuilder DoUpdate(IEnumerable<SqlColumn> sqlColumns)
         {
             DoUpdateBlock.AddRange(sqlColumns.Select(m => new OnConflictUpdateValueBlock(m)));
-            CurrentPosition = SqlInsertPosition.DoUpdate;
+            CurrentPosition = SqlInsertPosition.Do;
+            return this;
+        }
+        public SqlInsertBuilder DoNothing()
+        {
+            DoNothingBlock = new DoNothingBlock();
+            CurrentPosition = SqlInsertPosition.Do;
             return this;
         }
 
@@ -119,8 +126,9 @@ namespace SharpSqlBuilder.Builders
                 CustomBlocks[SqlInsertPosition.Values],
                 ConflictUpdate,
                 CustomBlocks[SqlInsertPosition.Conflict],
-                DoUpdateBlock,
-                CustomBlocks[SqlInsertPosition.DoUpdate],
+                DoUpdateBlock,     
+                DoNothingBlock,
+                CustomBlocks[SqlInsertPosition.Do],
                 WhereBlock,
                 CustomBlocks[SqlInsertPosition.Where],
                 ReturningBlock,

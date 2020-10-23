@@ -44,6 +44,23 @@ namespace SharpSqlBuilder.Builders
         public override bool Present(SqlOptions sqlOptions) =>
             SelectValuesBlock.Present(sqlOptions) && FromTablesBlock.Present(sqlOptions);
 
+        public SqlSelectBuilder()
+        {
+        }
+
+        public SqlSelectBuilder(SqlSelectBuilder copyFrom)
+        {
+            CustomSqlBlocks = copyFrom.CustomSqlBlocks;
+            FromTablesBlock = copyFrom.FromTablesBlock;
+            JoinsBlock = copyFrom.JoinsBlock;
+            OrdersBlock = copyFrom.OrdersBlock;
+            SelectValuesBlock = copyFrom.SelectValuesBlock;
+            WhereBlock = copyFrom.WhereBlock;
+            CurrentPosition = copyFrom.CurrentPosition;
+            Tables = copyFrom.Tables;
+            FirstSqlColumns = copyFrom.FirstSqlColumns;
+        }
+
         public SqlSelectBuilder Values(params SqlTable[] sqlTables)
         {
             foreach (var sqlTable in sqlTables ?? throw new ArgumentException(nameof(sqlTables)))

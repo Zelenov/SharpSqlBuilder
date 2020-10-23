@@ -159,7 +159,31 @@ namespace SharpSqlBuilder.Tests
             ";
             Check(expected, actual);
         }
-
+        [Test]
+        public void SqlBuilder_Insert_DoNothing_EqualsExpected()
+        {
+            var table = new SqlTable<Class2>();
+            var sqlOptions = new SqlOptions { Dialect = SqlDialect.Postgres95 };
+            var sqlBuilder = SqlBuilder.Insert.Into(table)
+               .AllStaticValues()
+               .OnKeysConflict()
+               .DoNothing();
+            var actual = sqlBuilder.BuildSql(sqlOptions);
+            var expected = @"
+            INSERT INTO foo.class2
+            (key, value1, value2, code_generated, do_not_change)
+            VALUES (
+                @Key,
+                @Value1,
+                @Value2,
+                @CodeGenerated,
+                @DoNotChange
+            )
+            ON CONFLICT (key, key_db_generated)
+            DO NOTHING
+            ";
+            Check(expected, actual);
+        }
         [Test]
         public void SqlBuilder_Select_EqualsExpected()
         {

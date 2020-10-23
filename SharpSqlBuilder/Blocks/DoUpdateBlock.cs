@@ -19,11 +19,11 @@ namespace SharpSqlBuilder.Blocks
             {
                 case SqlDatabaseType.Postgres:
                 case SqlDatabaseType.SqLite:
-                    command = "DO UPDATE SET";
+                    command = sqlOptions.Command("DO UPDATE SET");
                     break;
                 case SqlDatabaseType.MySql:
                 case SqlDatabaseType.MariaDb:
-                    command = "UPDATE";
+                    command = sqlOptions.Command("UPDATE");
                     break;
                 default: return null;
             }

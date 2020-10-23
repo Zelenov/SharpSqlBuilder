@@ -6,7 +6,7 @@
         Into,
         Values,
         Conflict,
-        DoUpdate,
+        Do,
         Where,
         Return
     }

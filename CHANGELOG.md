@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.7.2
+### Added
+On conflict Do Nothing
+
 ## 0.7.1
 ### Fixed
 Select Refactoring
