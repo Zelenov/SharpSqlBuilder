@@ -8,9 +8,10 @@ using SharpSqlBuilder.Maps;
 using SharpSqlBuilder.Operands;
 using SharpSqlBuilder.Operators;
 
+// ReSharper disable once CheckNamespace
 namespace SharpSqlBuilder.Builders
 {
-    public class SqlSelectBuilder : AggregatableEntity
+    public class SqlSelectBuilderBase : AggregatableEntity 
     {
         protected readonly Dictionary<SqlSelectPosition, CustomSqlBlock> CustomSqlBlocks =
             new Dictionary<SqlSelectPosition, CustomSqlBlock>
@@ -39,16 +40,16 @@ namespace SharpSqlBuilder.Builders
         /// <summary>
         /// Use for Dapper's splitOn param
         /// </summary>
-        public string SplitOn => string.Join(",", FirstSqlColumns.Select(c =>c.PropertyName).Where(c=>c!=null));
-        
+        public string SplitOn => string.Join(",", FirstSqlColumns.Select(c => c.PropertyName).Where(c => c != null));
+
         public override bool Present(SqlOptions sqlOptions) =>
             SelectValuesBlock.Present(sqlOptions) && FromTablesBlock.Present(sqlOptions);
 
-        public SqlSelectBuilder()
+        protected SqlSelectBuilderBase()
         {
         }
 
-        public SqlSelectBuilder(SqlSelectBuilder copyFrom)
+        protected SqlSelectBuilderBase(SqlSelectBuilderBase copyFrom)
         {
             CustomSqlBlocks = copyFrom.CustomSqlBlocks;
             FromTablesBlock = copyFrom.FromTablesBlock;
@@ -61,7 +62,7 @@ namespace SharpSqlBuilder.Builders
             FirstSqlColumns = copyFrom.FirstSqlColumns;
         }
 
-        public SqlSelectBuilder Values(params SqlTable[] sqlTables)
+        protected SqlSelectBuilderBase Values(params SqlTable[] sqlTables)
         {
             foreach (var sqlTable in sqlTables ?? throw new ArgumentException(nameof(sqlTables)))
             {
@@ -70,18 +71,18 @@ namespace SharpSqlBuilder.Builders
             return this;
         }
 
-        public SqlSelectBuilder Values(IEnumerable<SqlColumn> sqlColumns)
+        protected SqlSelectBuilderBase Values(IEnumerable<SqlColumn> sqlColumns)
         {
             var columns = sqlColumns as SqlColumn[] ?? sqlColumns.ToArray();
             SelectValuesBlock.AddRange(columns?.Select(m => new SelectColumnBlock(m)) ??
                 throw new ArgumentException(nameof(sqlColumns)));
             var firstColumn = columns.FirstOrDefault();
-            if (firstColumn!=null)
+            if (firstColumn != null)
                 FirstSqlColumns.Add(firstColumn);
             CurrentPosition = SqlSelectPosition.Select;
             return this;
         }
-        public SqlSelectBuilder Values(IEnumerable<Operand> sqlColumns)
+        protected SqlSelectBuilderBase Values(IEnumerable<Operand> sqlColumns)
         {
             foreach (var operand in sqlColumns ?? throw new ArgumentException(nameof(sqlColumns)))
             {
@@ -90,25 +91,25 @@ namespace SharpSqlBuilder.Builders
             CurrentPosition = SqlSelectPosition.Select;
             return this;
         }
-        public SqlSelectBuilder Value(Operand operand)
+        protected SqlSelectBuilderBase Value(Operand operand)
         {
             SelectValuesBlock.Add(new SelectColumnBlock(operand ?? throw new ArgumentException(nameof(operand))));
             CurrentPosition = SqlSelectPosition.Select;
             return this;
         }
 
-        public SqlSelectBuilder Star()
+        protected SqlSelectBuilderBase Star()
         {
             SelectValuesBlock.Add(new SelectStarBlock());
             CurrentPosition = SqlSelectPosition.Select;
             return this;
         }
-        public SqlSelectBuilder CountStar()
+        protected SqlSelectBuilderBase CountStar()
         {
             return Value(new CountStarAggregate());
         }
 
-        public SqlSelectBuilder CustomSql(string customSql, SqlSelectPosition? type = null)
+        protected SqlSelectBuilderBase CustomSql(string customSql, SqlSelectPosition? type = null)
         {
             var customSelectType = type ?? CurrentPosition;
             var block = CustomSqlBlocks[customSelectType];
@@ -116,7 +117,7 @@ namespace SharpSqlBuilder.Builders
             return this;
         }
 
-        public SqlSelectBuilder From(params SqlTable[] sqlTables)
+        protected SqlSelectBuilderBase From(params SqlTable[] sqlTables)
         {
             FromTablesBlock.AddRange(sqlTables.Select(sqlTable => new TableEntity(sqlTable)));
             foreach (var sqlTable in sqlTables)
@@ -127,7 +128,7 @@ namespace SharpSqlBuilder.Builders
             return this;
         }
 
-        public SqlSelectBuilder Join(JoinType joinType, SqlTable sqlTable, Operator on = null)
+        protected SqlSelectBuilderBase Join(JoinType joinType, SqlTable sqlTable, Operator on = null)
         {
             if (on == null)
                 on = AutoJoin(sqlTable);
@@ -145,7 +146,7 @@ namespace SharpSqlBuilder.Builders
             if (fkTable == null)
                 throw new ArgumentException($"Failed to find foreign key for joining table {sqlTable.TableName}");
 
-            var fks = fkTable.ForeignKeys.Where(fk=>fk.ForeignKey == sqlTable.TableName).ToArray();
+            var fks = fkTable.ForeignKeys.Where(fk => fk.ForeignKey == sqlTable.TableName).ToArray();
             if (fks.Length > 1)
                 throw new ArgumentException(
                     $"Table {fkTable.TableName} has more than one foreign key to table {sqlTable.TableName}");
@@ -163,74 +164,74 @@ namespace SharpSqlBuilder.Builders
         }
 
 
-        public SqlSelectBuilder InnerJoin(SqlTable sqlTable, Operator on = null)
+        protected SqlSelectBuilderBase InnerJoin(SqlTable sqlTable, Operator on = null)
         {
             return Join(JoinType.Inner, sqlTable, on);
         }
-        public SqlSelectBuilder LeftJoin(SqlTable sqlTable, Operator on = null)
+        protected SqlSelectBuilderBase LeftJoin(SqlTable sqlTable, Operator on = null)
         {
             return Join(JoinType.Left, sqlTable, on);
         }
 
-        public SqlSelectBuilder FullOuterJoin(SqlTable sqlTable, Operator on = null)
+        protected SqlSelectBuilderBase FullOuterJoin(SqlTable sqlTable, Operator on = null)
         {
             return Join(JoinType.FullOuter, sqlTable, on);
         }
 
-        public SqlSelectBuilder RightJoin(SqlTable sqlTable, Operator on = null)
+        protected SqlSelectBuilderBase RightJoin(SqlTable sqlTable, Operator on = null)
         {
             return Join(JoinType.Right, sqlTable, on);
         }
 
-        public SqlSelectBuilder Where(params Operator[] operators)
+        protected SqlSelectBuilderBase Where(params Operator[] operators)
         {
             WhereBlock.AddRange(operators);
             CurrentPosition = SqlSelectPosition.Where;
             return this;
         }
 
-        public SqlSelectBuilder Order(OrderMap orderMap, object order)
+        protected SqlSelectBuilderBase Order(OrderMap orderMap, object order)
         {
             OrdersBlock.AddRange(orderMap, order);
             CurrentPosition = SqlSelectPosition.Order;
             return this;
         }
 
-        public SqlSelectBuilder OrderBy(SqlColumn sqlColumn, OrderDirection direction)
+        protected SqlSelectBuilderBase OrderBy(SqlColumn sqlColumn, OrderDirection direction)
         {
             OrdersBlock.Add(new OrderBlock(sqlColumn, direction));
             CurrentPosition = SqlSelectPosition.Order;
             return this;
         }
 
-        public SqlSelectBuilder OrderBy(IEnumerable<OrderBlock> orderBy)
+        protected SqlSelectBuilderBase OrderBy(IEnumerable<OrderBlock> orderBy)
         {
             OrdersBlock.AddRange(orderBy);
             CurrentPosition = SqlSelectPosition.Order;
             return this;
         }
 
-        public SqlSelectBuilder LimitBy(Operand limitBy)
+        protected SqlSelectBuilderBase LimitBy(Operand limitBy)
         {
             LimitBlock = new LimitBlock(limitBy);
             CurrentPosition = SqlSelectPosition.Limit;
             return this;
         }
 
-        public SqlSelectBuilder LimitBy(long? limitBy) => LimitBy(Operand.From(limitBy?.ToString()));
+        protected SqlSelectBuilderBase LimitBy(long? limitBy) => LimitBy(Operand.From(limitBy?.ToString()));
 
-        public SqlSelectBuilder LimitBy(SqlFilterItem limitBy) => LimitBy(Operand.From(limitBy));
+        protected SqlSelectBuilderBase LimitBy(SqlFilterItem limitBy) => LimitBy(Operand.From(limitBy));
 
-        public SqlSelectBuilder Offset(Operand offset)
+        protected SqlSelectBuilderBase Offset(Operand offset)
         {
             OffsetBlock = new OffsetBlock(offset);
             CurrentPosition = SqlSelectPosition.Offset;
             return this;
         }
 
-        public SqlSelectBuilder Offset(SqlFilterItem offset) => Offset(Operand.From(offset));
+        protected SqlSelectBuilderBase Offset(SqlFilterItem offset) => Offset(Operand.From(offset));
 
-        public SqlSelectBuilder Offset(long? offset) => Offset(Operand.From(offset?.ToString()));
+        protected SqlSelectBuilderBase Offset(long? offset) => Offset(Operand.From(offset?.ToString()));
 
         public override string BuildSql(SqlOptions sqlOptions)
         {

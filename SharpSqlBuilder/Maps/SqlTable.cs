@@ -67,7 +67,6 @@ namespace SharpSqlBuilder.Maps
 
     public class SqlTable<T> : SqlTableTyped
     {
-
         public SqlTable() : base(typeof(T))
         {
         }

@@ -11,7 +11,11 @@ namespace SharpSqlBuilder.Blocks
     {
         public override string BuildSql(SqlOptions sqlOptions)
         {
-            var andBlock = new AndOperator(Entities);
+            AndOperator andBlock;
+            if (Entities.Count == 1 && Entities[0] is AndOperator andOperator)
+                andBlock = andOperator;
+            else
+                andBlock = new AndOperator(Entities);
             andBlock.Indent = true;
             andBlock.NewLine = true;
             var conditions = andBlock.BuildSql(sqlOptions, FlowOptions.Construct(this));

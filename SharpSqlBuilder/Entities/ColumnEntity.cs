@@ -15,6 +15,10 @@ namespace SharpSqlBuilder.Entities
         {
             ColumnName = sqlColumn?.ColumnName ?? throw new ArgumentException(nameof(sqlColumn));
         }
+        public ColumnEntity(string sqlColumn)
+        {
+            ColumnName = sqlColumn ?? throw new ArgumentException(nameof(sqlColumn));
+        }
 
         public override bool Present(SqlOptions sqlOptions) => true;
 
