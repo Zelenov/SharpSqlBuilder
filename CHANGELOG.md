@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.1
+### Added
+SqlUpdateBuilder<T>
+
 ## 0.8.0
 ### Added
 SqlBuilder<T>, SqlBuilder<T1, T2>, SqlBuilder<T1, T2, T3>, SqlBuilder<T1, T2, T3, T4>

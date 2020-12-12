@@ -22,7 +22,7 @@ namespace SharpSqlBuilder
     }
     public static class SqlBuilder<T>
     {
-        public static SqlUpdateBuilder Update(SqlTable sqlTable) => new SqlUpdateBuilder(sqlTable);
+        public static SqlUpdateBuilder<T> Update() => new SqlUpdateBuilder<T>();
 
         public static class Insert
         {
