@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.2
+### Added
+NamingConventionAttribute
+SqlTypeAttribute
+CastOperator
+
 ## 0.8.1
 ### Added
 SqlUpdateBuilder<T>

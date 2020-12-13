@@ -29,6 +29,7 @@ namespace SharpSqlBuilder.Tests
             [ForeignKeyType(typeof(Class3))]
             [Column("value1")] public Guid Value1 { get; set; }
             [ForeignKeyType(typeof(Class4))]
+            [SqlType("json")]
             [Column("value2")] public string Value2 { get; set; }
 
             [Column("do_not_change")]
@@ -37,24 +38,20 @@ namespace SharpSqlBuilder.Tests
         }
 
         [Table("class2", Schema = "foo")]
+        [NamingConvention(NamingConvention.SnakeCase)]
         public class Class2
         {
-            [Key] [Column("key")] public Guid Key { get; set; }
+            [Key] public Guid Key { get; set; }
 
             [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-            [Column("key_db_generated")]
             public int DbGeneratedKey { get; set; }
 
-            [Column("db_generated")]
             [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
             public Guid DbGenerated { get; set; }
-
-            [Column("value1")] 
             public int Value1 { get; set; }
-            [Column("value2")] public string Value2 { get; set; }
-            [Column("code_generated")] public DateTime CodeGenerated { get; set; }
+            public string Value2 { get; set; }
+            public DateTime CodeGenerated { get; set; }
 
-            [Column("do_not_change")]
             [IgnoreUpdate]
             public DateTime DoNotChange { get; set; }
         }
@@ -169,7 +166,7 @@ namespace SharpSqlBuilder.Tests
                 @DoNotChange
             )
             /* VALUES */
-            ON CONFLICT (key, key_db_generated)
+            ON CONFLICT (key, db_generated_key)
             /* ON CONFLICT */
             DO UPDATE SET
                 db_generated = EXCLUDED.db_generated,
@@ -182,7 +179,7 @@ namespace SharpSqlBuilder.Tests
                 EXCLUDED.code_generated < class2.code_generated
             /* WHERE */
             RETURNING
-	            key_db_generated AS DbGeneratedKey,
+	            db_generated_key AS DbGeneratedKey,
 	            db_generated AS DbGenerated
             /* RETURNING */
             ";
@@ -219,7 +216,7 @@ namespace SharpSqlBuilder.Tests
                 @DoNotChange
             )
             /* VALUES */
-            ON CONFLICT (key, key_db_generated)
+            ON CONFLICT (key, db_generated_key)
             /* ON CONFLICT */
             DO UPDATE SET
                 db_generated = EXCLUDED.db_generated,
@@ -232,7 +229,7 @@ namespace SharpSqlBuilder.Tests
                 EXCLUDED.code_generated < class2.code_generated
             /* WHERE */
             RETURNING
-	            key_db_generated AS DbGeneratedKey,
+	            db_generated_key AS DbGeneratedKey,
 	            db_generated AS DbGenerated
             /* RETURNING */
             ";
@@ -258,7 +255,7 @@ namespace SharpSqlBuilder.Tests
                 @CodeGenerated,
                 @DoNotChange
             )
-            ON CONFLICT (key, key_db_generated)
+            ON CONFLICT (key, db_generated_key)
             DO NOTHING
             ";
             Check(expected, actual);
@@ -421,7 +418,7 @@ namespace SharpSqlBuilder.Tests
 	            class1.value2 AS Value2,
 	            class1.do_not_change AS DoNotChange,
 	            class2.key AS Key,
-	            class2.key_db_generated AS DbGeneratedKey,
+	            class2.db_generated_key AS DbGeneratedKey,
 	            class2.db_generated AS DbGenerated,
 	            class2.value1 AS Value1,
 	            class2.value2 AS Value2,
@@ -436,7 +433,7 @@ namespace SharpSqlBuilder.Tests
 	                (@Ids IS NULL OR class1.id = ANY(@Ids))
 	            AND (@Value1 IS NULL OR class1.value1 = @Value1)
 	            AND (@Key IS NULL OR class2.key = @Key)
-	            AND (@DbGeneratedKey IS NULL OR class2.key_db_generated = @DbGeneratedKey)
+	            AND (@DbGeneratedKey IS NULL OR class2.db_generated_key = @DbGeneratedKey)
 	            AND class2.key ILIKE @Key
 	            AND class2.key LIKE @Key
 	            AND LOWER(class2.key) LIKE LOWER(@Key)
@@ -501,7 +498,7 @@ namespace SharpSqlBuilder.Tests
 	            class1.value2 AS Value2,
 	            class1.do_not_change AS DoNotChange,
 	            class2.key AS Key,
-	            class2.key_db_generated AS DbGeneratedKey,
+	            class2.db_generated_key AS DbGeneratedKey,
 	            class2.db_generated AS DbGenerated,
 	            class2.value1 AS Value1,
 	            class2.value2 AS Value2,
@@ -516,7 +513,7 @@ namespace SharpSqlBuilder.Tests
 	                (@Ids IS NULL OR class1.id = ANY(@Ids))
 	            AND (@Value1 IS NULL OR class1.value1 = @Value1)
 	            AND (@Key IS NULL OR class2.key = @Key)
-	            AND (@DbGeneratedKey IS NULL OR class2.key_db_generated = @DbGeneratedKey)
+	            AND (@DbGeneratedKey IS NULL OR class2.db_generated_key = @DbGeneratedKey)
 	            AND class2.key ILIKE @Key
 	            AND class2.key LIKE @Key
 	            AND LOWER(class2.key) LIKE LOWER(@Key)
@@ -616,7 +613,7 @@ namespace SharpSqlBuilder.Tests
             /* UPDATE */
             SET
 	            value1 = @Value1,
-	            value2 = @Value2
+	            value2 = CAST(@Value2 AS json)
             /* SET */
             WHERE
 	            @Id = class1.id
@@ -648,7 +645,7 @@ namespace SharpSqlBuilder.Tests
             /* UPDATE */
             SET
 	            value1 = @Value1,
-	            value2 = @Value2
+	            value2 = CAST(@Value2 AS json)
             /* SET */
             WHERE
 	            @Id = class1.id
@@ -783,4 +780,5 @@ namespace SharpSqlBuilder.Tests
             Assert.AreEqual(Sql.Normalize(expected), Sql.Normalize(actual));
         }
     }
+
 }

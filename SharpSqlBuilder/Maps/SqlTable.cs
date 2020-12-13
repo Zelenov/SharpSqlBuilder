@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Linq.Expressions;
 using SharpSqlBuilder.Attributes;
@@ -58,9 +57,11 @@ namespace SharpSqlBuilder.Maps
 
         protected IEnumerable<SqlColumn> GetColumns(Type type)
         {
+            var namingConvention = type.GetAttribute<NamingConventionAttribute>()?.NamingConvention ??
+                NamingConvention.AsIs;
             return type.GetProperties()
                .Where(p => p.GetAttribute<SqlIgnore>() == null)
-               .Select(p => new PropertySqlColumn(p) { Parent = this });
+               .Select(p => new PropertySqlColumn(p, namingConvention) { Parent = this });
         }
     }
 

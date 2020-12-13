@@ -200,6 +200,12 @@ namespace SharpSqlBuilder.Extensions
         public static ILikeOperator ILike(this SqlColumn self, string other) =>
             Operand.From(self ?? throw new ArgumentException(nameof(self)))
                .ILike(Operand.From(other) ?? throw new ArgumentException(nameof(self)));
+        public static CastOperator Cast(this SqlColumn self, string @as) =>
+            Operand.From(self ?? throw new ArgumentException(nameof(self)))
+               .Cast(@as ?? throw new ArgumentException(nameof(self)));
+        public static CastOperator Cast(this SqlFilterItem self, string @as) =>
+            Operand.From(self ?? throw new ArgumentException(nameof(self)))
+               .Cast(@as ?? throw new ArgumentException(nameof(self)));
 
     }
 }

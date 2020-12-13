@@ -67,6 +67,7 @@ namespace SharpSqlBuilder.Operands
         public LTrimOperand LTrim() => new LTrimOperand(this);
         public RTrimOperand RTrim() => new RTrimOperand(this);
         public TrimOperand Trim() => new TrimOperand(this);
+        public CastOperator Cast(string @as) => new CastOperator(this, @as);
 
         public OrOperator Or(params Operand[] operators)
         {

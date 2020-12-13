@@ -9,13 +9,13 @@ namespace SharpSqlBuilder.Maps
 {
     public class PropertySqlColumn : SqlColumn
     {
-        public PropertySqlColumn(PropertyInfo propertyInfo)
+        public PropertySqlColumn(PropertyInfo propertyInfo, NamingConvention namingConvention)
         {
             if (propertyInfo == null)
                 throw new ArgumentException(nameof(propertyInfo));
 
             var columnAttr = propertyInfo.GetAttribute<ColumnAttribute>();
-            var column = columnAttr?.Name ?? propertyInfo.Name;
+            var column = columnAttr?.Name ?? propertyInfo.Name.ToNamingConvention(namingConvention);
 
             ColumnName = column;
             PropertyName = propertyInfo.Name;
@@ -45,7 +45,12 @@ namespace SharpSqlBuilder.Maps
             var foreignKeyAttribute = propertyInfo.GetAttribute<ForeignKeyAttribute>();
             if (foreignKeyAttribute!=null)
                 WithForeignKey(foreignKeyAttribute.Name);
+
+            var sqlTypeAttribute = propertyInfo.GetAttribute<SqlTypeAttribute>();
+            if (sqlTypeAttribute != null)
+                WithSqlType(sqlTypeAttribute.SqlType);
         }
+
 
 
         public PropertyInfo PropertyInfo { get; set; }

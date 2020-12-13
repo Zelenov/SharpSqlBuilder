@@ -7,13 +7,19 @@ using SharpSqlBuilder.Maps;
 
 namespace SharpSqlBuilder.Extensions
 {
-    public static class TypeExtensions
+    internal static class TypeExtensions
     {
-
+        public static NamingConvention GetNamingConvention(this Type type)
+        {
+            var namingConventionAttr = type.GetAttribute<NamingConventionAttribute>();
+            return namingConventionAttr?.NamingConvention ??
+                NamingConvention.AsIs;
+        }
         public static string GetTableName(this Type type)
         {
+            var namingConvention = type.GetNamingConvention();
             var tableNameAttr = GetAttribute<TableAttribute>(type);
-            return tableNameAttr?.Name;
+            return tableNameAttr?.Name ?? type.Name.ToNamingConvention(namingConvention);
         }
 
         public static string GetSchema(this Type type)
