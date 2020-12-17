@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.4
+### Added
+Where(f=>..)
+
 ## 0.8.3
 ### Added
 Where<TFilter>(f=>..)

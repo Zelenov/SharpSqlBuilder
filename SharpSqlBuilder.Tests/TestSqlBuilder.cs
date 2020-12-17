@@ -330,12 +330,12 @@ namespace SharpSqlBuilder.Tests
                 );
 
             var sqlOptions = new SqlOptions {Dialect = SqlDialect.Postgres95};
-            var sqlBuilder = SqlBuilder<Class1>.Select.Where(t =>
+            var sqlBuilder = SqlBuilder<Class1>.Select.Where(sqlFilter,(filter,t) =>
                     Conditions.And(
-                        Conditions.Or(sqlFilter[f => f.Ids].IsNull(),
-                            table[m => m.Id].EqualsAny(sqlFilter[f => f.Ids])),
-                        Conditions.Or(sqlFilter[f => f.Value1].IsNull(),
-                            table[m => m.Value1].EqualsOne(sqlFilter[f => f.Value1]))))
+                        Conditions.Or(filter[f => f.Ids].IsNull(),
+                            table[m => m.Id].EqualsAny(filter[f => f.Ids])),
+                        Conditions.Or(filter[f => f.Value1].IsNull(),
+                            table[m => m.Value1].EqualsOne(filter[f => f.Value1]))))
                .Order(orderMap, order)
                .Offset(5)
                .LimitBy(10);

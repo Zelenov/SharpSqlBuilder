@@ -11,9 +11,11 @@ namespace SharpSqlBuilder.Builders
         public delegate SqlColumn ChooseColumnFunc(SqlTable<T> table);
         public delegate Operator ChooseOperatorFunc(SqlTable<T> table);
         public delegate Operator ChooseFilteredOperatorFunc<TFilter>(SqlFilter<TFilter> filter, SqlTable<T> table);
+        public delegate Operator ChooseFilteredOperatorFunc(SqlFilter filter, SqlTable<T> table);
 
         public SqlSelectBuilder<T> Where(ChooseOperatorFunc @operator) => base.Where(RunDelegate(@operator));
         public SqlSelectBuilder<T> Where<TFilter>(SqlFilter<TFilter> filter, ChooseFilteredOperatorFunc<TFilter> @operator) => base.Where(RunDelegate(filter, @operator));
+        public SqlSelectBuilder<T> Where(SqlFilter filter, ChooseFilteredOperatorFunc @operator) => base.Where(RunDelegate(filter, @operator));
 
         public SqlSelectBuilder<T> OrderBy(ChooseColumnFunc sqlColumn, OrderDirection direction) => base.OrderBy(RunDelegate(sqlColumn), direction);
 
@@ -32,6 +34,10 @@ namespace SharpSqlBuilder.Builders
             return @operator?.Invoke(t) ?? throw new ArgumentException(argumentName ?? nameof(@operator));
         }
         private Operator RunDelegate<TFilter>(SqlFilter<TFilter> sqlFilter, ChooseFilteredOperatorFunc<TFilter> @operator, string argumentName = null)
+        {
+            return @operator?.Invoke(sqlFilter, t) ?? throw new ArgumentException(argumentName ?? nameof(@operator));
+        }
+        private Operator RunDelegate(SqlFilter sqlFilter, ChooseFilteredOperatorFunc @operator, string argumentName = null)
         {
             return @operator?.Invoke(sqlFilter, t) ?? throw new ArgumentException(argumentName ?? nameof(@operator));
         }
