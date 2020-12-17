@@ -27,5 +27,30 @@ namespace SharpSqlBuilder.Entities
             var columnName = ColumnName;
             return columnName;
         }
+    } 
+    /// <summary>
+    ///     Represents just a table's column name, without (tablename.) part. Used in ON CONFLICT ..., ... block
+    ///     <example>column</example>
+    /// </summary>
+    public class InsertColumnEntity : SqlBuilderEntity
+    {
+        public readonly string ColumnName;
+
+        public InsertColumnEntity(SqlColumn sqlColumn)
+        {
+            ColumnName = sqlColumn?.ColumnName ?? throw new ArgumentException(nameof(sqlColumn));
+        }
+        public InsertColumnEntity(string sqlColumn)
+        {
+            ColumnName = sqlColumn ?? throw new ArgumentException(nameof(sqlColumn));
+        }
+
+        public override bool Present(SqlOptions sqlOptions) => true;
+
+        public override string BuildSql(SqlOptions sqlOptions)
+        {
+            var columnName = ColumnName;
+            return columnName;
+        }
     }
 }

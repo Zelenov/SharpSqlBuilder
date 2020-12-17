@@ -10,6 +10,7 @@ namespace SharpSqlBuilder.Builders
         public delegate SqlTable ChooseTableFunc(SqlTable<T1> table1, SqlTable<T2> table2, SqlTable<T3> table3, SqlTable<T4> table4);
         public delegate SqlColumn ChooseColumnFunc(SqlTable<T1> table1, SqlTable<T2> table2, SqlTable<T3> table3, SqlTable<T4> table4);
         public delegate Operator ChooseOperatorFunc(SqlTable<T1> table1, SqlTable<T2> table2, SqlTable<T3> table3, SqlTable<T4> table4);
+        public delegate Operator ChooseFilteredOperatorFunc<TFilter>(SqlFilter<TFilter> filter, SqlTable<T1> table1, SqlTable<T2> table2, SqlTable<T3> table3, SqlTable<T4> table4);
 
         public SqlSelectBuilder<T1, T2, T3, T4> From(ChooseTableFunc chooseTable) => base.From(RunDelegate(chooseTable));
         public SqlSelectBuilder<T1, T2, T3, T4> Join(JoinType joinType, ChooseTableFunc chooseTable, ChooseOperatorFunc on = null) => base.Join(joinType, RunDelegate(chooseTable), RunDelegate(on, nameof(on)));
@@ -18,6 +19,7 @@ namespace SharpSqlBuilder.Builders
         public SqlSelectBuilder<T1, T2, T3, T4> FullOuterJoin(ChooseTableFunc chooseTable, ChooseOperatorFunc on = null) => base.FullOuterJoin(RunDelegate(chooseTable), RunDelegate(on, nameof(on)));
         public SqlSelectBuilder<T1, T2, T3, T4> RightJoin(ChooseTableFunc chooseTable, ChooseOperatorFunc on = null) => base.RightJoin(RunDelegate(chooseTable), RunDelegate(on, nameof(on)));
         public SqlSelectBuilder<T1, T2, T3, T4> Where(ChooseOperatorFunc @operator) => base.Where(RunDelegate(@operator));
+        public SqlSelectBuilder<T1, T2, T3, T4> Where<TFilter>(SqlFilter<TFilter> filter, ChooseFilteredOperatorFunc<TFilter> @operator) => base.Where(RunDelegate(filter, @operator));
         public SqlSelectBuilder<T1, T2, T3, T4> OrderBy(ChooseColumnFunc sqlColumn, OrderDirection direction) => base.OrderBy(RunDelegate(sqlColumn), direction);
 
         public SqlSelectBuilder()
@@ -32,6 +34,10 @@ namespace SharpSqlBuilder.Builders
         private Operator RunDelegate(ChooseOperatorFunc @operator, string argumentName = null)
         {
             return @operator?.Invoke(t1, t2, t3, t4) ?? throw new ArgumentException(argumentName ?? nameof(@operator));
+        }
+        private Operator RunDelegate<TFilter>(SqlFilter<TFilter> sqlFilter, ChooseFilteredOperatorFunc<TFilter> @operator, string argumentName = null)
+        {
+            return @operator?.Invoke(sqlFilter, t1, t2, t3, t4) ?? throw new ArgumentException(argumentName ?? nameof(@operator));
         }
         private SqlColumn RunDelegate(ChooseColumnFunc sqlColumn, string argumentName = null)
         {
