@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Text;
 
-namespace SberPrint.Tests.Api.Common
+namespace SharpSqlBuilder.Tests.Common
 {
     public static class LineByLineOutput
     {
