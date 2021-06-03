@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.1
+### Fixed
+`OrderMap.FromOrder()`, `OrderMap.Build()` accept nulls
+
 ## 0.9.0
 ### Added
 `OrderMap.FromOrder()` changed signature

@@ -18,7 +18,7 @@ namespace SharpSqlBuilder.Maps
             bool throwOnMissingProperty = true)
         {
             if (namedOrderItems == null)
-                throw new ArgumentException(nameof(namedOrderItems));
+                return this;
 
             var setOrders = namedOrderItems.Where(x => x != null).Select(p =>
             {
@@ -37,17 +37,21 @@ namespace SharpSqlBuilder.Maps
         }
         public OrderMap Append(OrderMap other)
         {
+            if (other == null)
+                return this;
             return Append(other.Items);
         }
         public OrderMap Append(IEnumerable<OrderMapItem> orderItems)
         {
+            if (orderItems == null)
+                return this;
             Items.AddRange(orderItems);
             return this;
         }
         public OrderMap Append(SqlTable map, object order)
         {
             if (order == null)
-                throw new ArgumentException(nameof(order));
+                return this;
 
             var mapType = order.GetType();
             var orderProps = OrderProps.GetOrAdd(mapType, o => o.GetProperties()
