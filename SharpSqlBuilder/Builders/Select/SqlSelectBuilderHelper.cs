@@ -23,7 +23,7 @@ namespace SharpSqlBuilder.Builders
         protected new TBuilder RightJoin(SqlTable sqlTable, Operator on = null) => (TBuilder)base.RightJoin(sqlTable, on);
         protected new TBuilder Where(params Operator[] operators) => (TBuilder)base.Where(operators);
         protected new TBuilder OrderBy(SqlColumn sqlColumn, OrderDirection direction) => (TBuilder)base.OrderBy(sqlColumn, direction);
-        public new TBuilder Order(OrderMap orderMap, object order) => (TBuilder)base.Order(orderMap, order);
+        public new TBuilder Order(OrderMap orderMap) => (TBuilder)base.Order(orderMap);
         public new TBuilder OrderBy(IEnumerable<OrderBlock> orderBy) => (TBuilder)base.OrderBy(orderBy);
         public new TBuilder LimitBy(Operand limitBy) => (TBuilder)base.LimitBy(limitBy);
         public new TBuilder LimitBy(long? limitBy) => (TBuilder)base.LimitBy(limitBy);

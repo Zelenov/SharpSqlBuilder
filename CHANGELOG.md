@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.9.0
+### Added
+`OrderMap.FromOrder()` changed signature
+`SqlSelectBuilderBase.Order()` changed signature
+### Added
+`OrderMap.Build()` — build order from array of named structures
+
 ## 0.8.4
 ### Added
 Where(f=>..)

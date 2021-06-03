@@ -271,7 +271,7 @@ namespace SharpSqlBuilder.Tests
                 Value1 = new OrderItem {Direction = OrderDirection.Desc, Index = 1},
                 DoNotChange = (OrderItem) null
             };
-            var orderMap = OrderMap.FromOrder(table, order.GetType());
+            var orderMap = OrderMap.FromOrder(table, order);
             var sqlFilter = SqlFilter.Construct(
                 new {Ids = new[] {1, 2}, Value1 = "foo", Auto = (int?) null}
                 );
@@ -287,7 +287,7 @@ namespace SharpSqlBuilder.Tests
                .Values(table)
                .From(table)
                .Where(whereSql)
-               .Order(orderMap, order)
+               .Order(orderMap)
                .Offset(5)
                .LimitBy(10);
 
@@ -324,7 +324,7 @@ namespace SharpSqlBuilder.Tests
                 Value1 = new OrderItem {Direction = OrderDirection.Desc, Index = 1},
                 DoNotChange = (OrderItem) null
             };
-            var orderMap = OrderMap.FromOrder(table, order.GetType());
+            var orderMap = OrderMap.FromOrder(table, order);
             var sqlFilter = SqlFilter.Construct(
                 new {Ids = new[] {1, 2}, Value1 = "foo", Auto = (int?) null}
                 );
@@ -336,7 +336,7 @@ namespace SharpSqlBuilder.Tests
                             table[m => m.Id].EqualsAny(filter[f => f.Ids])),
                         Conditions.Or(filter[f => f.Value1].IsNull(),
                             table[m => m.Value1].EqualsOne(filter[f => f.Value1]))))
-               .Order(orderMap, order)
+               .Order(orderMap)
                .Offset(5)
                .LimitBy(10);
 
@@ -767,6 +767,36 @@ namespace SharpSqlBuilder.Tests
             ";
             Check(expected, actual);
             Assert.AreEqual("", sqlBuilder.SplitOn);
+        }
+        [Test]
+        public void OrderByEnumerable_EqualsExpected()
+        {
+            var table = new SqlTable<Class1>();
+
+            var order = new[]
+            {
+                new NamedOrderItem{PropertyName = "Value1", Direction = OrderDirection.Desc},
+                new NamedOrderItem{PropertyName = "Id", Direction = OrderDirection.Asc},
+                null
+            };
+            var orderMap = OrderMap.Build(table, order, true);
+            var sqlOptions = new SqlOptions { Dialect = SqlDialect.Postgres95 };
+            var sqlBuilder = SqlBuilder.Select
+               .Star()
+               .From(table)
+               .Order(orderMap);
+
+
+            var actual = sqlBuilder.BuildSql(sqlOptions);
+            var expected = @"
+            SELECT
+                *
+            FROM foo.class1
+            ORDER BY
+              class1.value1 DESC,
+              class1.id ASC
+            ";
+            Check(expected, actual);
         }
 
 

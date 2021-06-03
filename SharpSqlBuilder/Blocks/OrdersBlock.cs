@@ -11,30 +11,19 @@ namespace SharpSqlBuilder.Blocks
 {
     public class OrdersBlock : CollectionBlock<OrderBlock>
     {
-        private static readonly ConcurrentDictionary<Type, Dictionary<string, PropertyInfo>> OrderProps =
-            new ConcurrentDictionary<Type, Dictionary<string, PropertyInfo>>();
-
-        public void AddRange(OrderMap orderMap, object order)
+        public void AddRange(OrderMap orderMap)
         {
-            AddRange(ParseOrderFilter(orderMap, order));
+            AddRange(ParseOrderFilter(orderMap));
         }
 
-        private IEnumerable<OrderBlock> ParseOrderFilter(OrderMap orderMap, object order)
+        private IEnumerable<OrderBlock> ParseOrderFilter(OrderMap orderMap)
         {
-            if (order == null || orderMap == null)
+            if (orderMap == null)
                 return Enumerable.Empty<OrderBlock>();
 
-            var props = OrderProps.GetOrAdd(order.GetType(),
-                o => o.GetProperties().Where(p => p.PropertyType == typeof(OrderItem)).ToDictionary(p => p.Name));
-            var setOrders = props.Values.Select(p => (o: (OrderItem) p.GetValue(order), p))
-               .Where(t => t.p != null && t.o != null)
-               .Select(t => (orderMap: orderMap.Items[t.p.Name], t.o))
-               .Where(t => t.orderMap != null)
-               .OrderBy(t => t.o.Index)
-               .Select(t => new OrderBlock(t.orderMap.Prop, t.o.Direction));
+            var setOrders = orderMap.Items.Select(t => new OrderBlock(t.Prop, t.Direction));
             return setOrders;
         }
-
         public override string BuildSql(SqlOptions sqlOptions)
         {
             var orders = Entities.Select(s => s.BuildSql(sqlOptions, FlowOptions.Construct(this)));

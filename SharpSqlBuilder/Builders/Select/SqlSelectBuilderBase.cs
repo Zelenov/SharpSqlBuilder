@@ -190,9 +190,9 @@ namespace SharpSqlBuilder.Builders
             return this;
         }
 
-        protected SqlSelectBuilderBase Order(OrderMap orderMap, object order)
+        protected SqlSelectBuilderBase Order(OrderMap orderMap)
         {
-            OrdersBlock.AddRange(orderMap, order);
+            OrdersBlock.AddRange(orderMap);
             CurrentPosition = SqlSelectPosition.Order;
             return this;
         }
