@@ -140,28 +140,63 @@ namespace SharpSqlBuilder.Builders
 
         private Operator AutoJoin(SqlTable sqlTable)
         {
-            var tables = Tables.Where(t => t.ForeignKeys.Any(column => column.ForeignKey == sqlTable.TableName))
+            bool swap;
+            SqlTable pkTable;
+            var fkTables = Tables.Where(t => t.ForeignKeys.Any(column => column.ForeignKey == sqlTable.TableName))
                .ToArray();
-            var fkTable = tables.FirstOrDefault(t => t.Schema == sqlTable.Schema) ?? tables.FirstOrDefault();
-            if (fkTable == null)
-                throw new ArgumentException($"Failed to find foreign key for joining table {sqlTable.TableName}");
+            var fkTable = fkTables.FirstOrDefault(t => t.Schema == sqlTable.Schema) ?? fkTables.FirstOrDefault();
+            if (fkTable != null)
+            {
+                pkTable = sqlTable;
+                swap = false;
+            }
+            else
+            {
+                var pkTables = Tables.Where(table =>
+                    sqlTable.ForeignKeys.Any(column => column.ForeignKey == table.TableName)).ToArray();
+                pkTable = pkTables.FirstOrDefault(t => t.Schema == sqlTable.Schema) ?? pkTables.FirstOrDefault();
+                if (pkTable == null)
+                    throw new ArgumentException($"Failed to find foreign key for joining table {sqlTable.TableName}");
 
-            var fks = fkTable.ForeignKeys.Where(fk => fk.ForeignKey == sqlTable.TableName).ToArray();
+                fkTable = sqlTable;
+                swap = true;
+            }
+
+            var join = AutoJoin(pkTable, fkTable);
+            SqlColumn a;
+            SqlColumn b;
+            if (!swap)
+            {
+                a = join.Key;
+                b = join.Value;
+            }
+            else
+            {
+                b = join.Key;
+                a = join.Value;
+            }
+
+            return a.EqualsOne(b);
+        }
+        private KeyValuePair<SqlColumn, SqlColumn> AutoJoin(SqlTable pkTable, SqlTable fkTable)
+        {
+            var fks = fkTable.ForeignKeys.Where(fk => fk.ForeignKey == pkTable.TableName).ToArray();
             if (fks.Length > 1)
                 throw new ArgumentException(
-                    $"Table {fkTable.TableName} has more than one foreign key to table {sqlTable.TableName}");
+                    $"Table {fkTable.TableName} has more than one foreign key to table {pkTable.TableName}");
 
             var foreignKey = fks[0];
-            var keys = sqlTable.Keys.ToArray();
+            var keys = pkTable.Keys.ToArray();
             if (keys.Length == 0)
-                throw new ArgumentException($"Table {sqlTable.TableName} has no key");
+                throw new ArgumentException($"Table {pkTable.TableName} has no key");
 
             if (keys.Length > 1)
-                throw new ArgumentException($"Table {sqlTable.TableName} has more than one key");
+                throw new ArgumentException($"Table {pkTable.TableName} has more than one key");
 
             var key = keys[0];
-            return key.EqualsOne(foreignKey);
+            return new KeyValuePair<SqlColumn,SqlColumn>(key, foreignKey);
         }
+       
 
 
         protected SqlSelectBuilderBase InnerJoin(SqlTable sqlTable, Operator on = null)

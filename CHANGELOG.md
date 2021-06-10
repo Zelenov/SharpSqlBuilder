@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.2
+### Fixed
+better `AutoJoin()`
+
 ## 0.9.1
 ### Fixed
 `OrderMap.FromOrder()`, `OrderMap.Build()` accept nulls
