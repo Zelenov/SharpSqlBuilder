@@ -15,6 +15,8 @@ namespace SharpSqlBuilder
         public string IndentSymbol { get; set; } = "\t";
         public string NewLineSymbol { get; set; } = Environment.NewLine;
         public int Tabs { get; set; }
+        public bool IncludeTableNames { get; set; } = true;
+        public bool IncludeSchemaName { get; set; } = true;
         public SqlOptions Inlined()
         {
             OneLine = true;
@@ -33,7 +35,20 @@ namespace SharpSqlBuilder
                 UpperCaseCommands = this.UpperCaseCommands,
                 OneLine = this.OneLine,
                 IndentSymbol = this.IndentSymbol,
-                NewLineSymbol = this.NewLineSymbol
+                NewLineSymbol = this.NewLineSymbol,
+                IncludeTableNames = this.IncludeTableNames,
+                IncludeSchemaName = this.IncludeSchemaName,
             };
+
+        public SqlOptions WithoutTableNames()
+        {
+            IncludeTableNames = false;
+            return this;
+        }
+        public SqlOptions WithoutSchemaName()
+        {
+            IncludeSchemaName = true;
+            return this;
+        }
     }
 }

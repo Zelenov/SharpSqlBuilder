@@ -28,7 +28,7 @@ namespace SharpSqlBuilder.Entities
         {
             var schema = sqlOptions?.SchemaName(Schema);
             var tableName = sqlOptions.TableName(TableName);
-            if (schema == null)
+            if (schema == null || !sqlOptions.IncludeSchemaName)
                 return tableName;
 
             return $"{schema}.{tableName}";

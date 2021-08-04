@@ -20,8 +20,13 @@ namespace SharpSqlBuilder.Operands
 
         public override string BuildSql(SqlOptions sqlOptions)
         {
-            var tableName = sqlOptions.TableName(TableName);
             var columnName = sqlOptions.ColumnName(ColumnName);
+            if (!sqlOptions.IncludeTableNames)
+            {
+                return columnName;
+            }
+
+            var tableName = sqlOptions.TableName(TableName);
             return $"{tableName}.{columnName}";
         }
     }

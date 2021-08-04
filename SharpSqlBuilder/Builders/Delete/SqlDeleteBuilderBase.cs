@@ -74,8 +74,9 @@ namespace SharpSqlBuilder.Builders
             if (sqlOptions == null)
                 throw new ArgumentException(nameof(sqlOptions));
 
-            CheckBeforeBuild(sqlOptions);
+            var updatedSqlOptions =((SqlOptions)sqlOptions.Clone()).WithoutTableNames();
 
+            CheckBeforeBuild(updatedSqlOptions);
             IEnumerable<SqlBuilderEntity> data = new SqlBuilderEntity[]
             {
                 CustomBlocks[SqlDeletePosition.Start],
@@ -86,7 +87,7 @@ namespace SharpSqlBuilder.Builders
                 ReturningsBlock,
                 CustomBlocks[SqlDeletePosition.Return]
             };
-            var commands = data.Where(b => CheckBlock(b, sqlOptions)).Select(b => b.BuildSql(sqlOptions, FlowOptions.Construct(this)));
+            var commands = data.Where(b => CheckBlock(b, updatedSqlOptions)).Select(b => b.BuildSql(updatedSqlOptions, FlowOptions.Construct(this)));
             return string.Join(sqlOptions.NewLine(), commands);
         }
     }

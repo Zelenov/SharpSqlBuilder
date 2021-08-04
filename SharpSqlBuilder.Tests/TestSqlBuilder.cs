@@ -92,7 +92,7 @@ namespace SharpSqlBuilder.Tests
             DELETE FROM foo.class1
             /* DELETE FROM */
             WHERE
-	            @Id = class1.id
+	            @Id = id
             /* WHERE */
             RETURNING
 	            id AS Id,
@@ -121,7 +121,7 @@ namespace SharpSqlBuilder.Tests
             DELETE FROM foo.class1
             /* DELETE FROM */
             WHERE
-	            @Id = class1.id
+	            @Id = id
             /* WHERE */
             RETURNING
 	            id AS Id,

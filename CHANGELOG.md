@@ -1,6 +1,13 @@
 # Changelog
 
 ## 0.10.0
+### Fixed
+`DELETE` now returns runnable sql 
+### Added
+`SqlOptions.IncludeTableNames`
+`SqlOptions.IncludeSchemaName`
+
+## 0.10.0
 ### Changed
 `SqlColumn`, `SqlFilterItem` and `Operand` are `IOperable`
 all `(this SqlColumn x, ...`, `(this SqlFilterItem x,...` functions are now  `(this IOperable x, ...`
