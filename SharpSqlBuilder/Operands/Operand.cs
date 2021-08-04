@@ -1,17 +1,15 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using SharpSqlBuilder.Maps;
 using SharpSqlBuilder.Operators;
 
 namespace SharpSqlBuilder.Operands
 {
-    public abstract class Operand : SqlBuilderEntity
+    public abstract class Operand : SqlBuilderEntity, IOperable
     {
         public override bool Present(SqlOptions sqlOptions) => true;
 
-        public static TableColumnOperand From(SqlColumn self) => new TableColumnOperand(self);
-
-        public static SqlFilterOperand From(SqlFilterItem self) => new SqlFilterOperand(self);
-
+        public static Operand From(IOperable self) => self.AsOperand;
         public static CustomSqlOperand From(string data) => new CustomSqlOperand(data);
 
         public IsNullOperator IsNull() => new IsNullOperator(this);
@@ -68,6 +66,8 @@ namespace SharpSqlBuilder.Operands
         public RTrimOperand RTrim() => new RTrimOperand(this);
         public TrimOperand Trim() => new TrimOperand(this);
         public CastOperator Cast(string @as) => new CastOperator(this, @as);
+        public CoalesceOperand Coalesce(IEnumerable<Operand> operands) => new CoalesceOperand(new []{this}.Concat(operands));
+        public CoalesceOperand Coalesce(params Operand[] operands) => new CoalesceOperand(new []{this}.Concat(operands));
 
         public OrOperator Or(params Operand[] operators)
         {
@@ -79,6 +79,6 @@ namespace SharpSqlBuilder.Operands
             return new AndOperator(new[] { this }.Concat(operators));
         }
 
-
+        Operand IOperable.AsOperand => this;
     }
 }

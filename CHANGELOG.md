@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.10.0
+### Changed
+`SqlColumn`, `SqlFilterItem` and `Operand` are `IOperable`
+all `(this SqlColumn x, ...`, `(this SqlFilterItem x,...` functions are now  `(this IOperable x, ...`
+`COALESCE` function
+
 ## 0.9.2
 ### Fixed
 better `AutoJoin()`

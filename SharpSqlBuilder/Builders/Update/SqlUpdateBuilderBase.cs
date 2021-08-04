@@ -5,6 +5,7 @@ using SharpSqlBuilder.Blocks;
 using SharpSqlBuilder.Entities;
 using SharpSqlBuilder.Extensions;
 using SharpSqlBuilder.Maps;
+using SharpSqlBuilder.Operands;
 using SharpSqlBuilder.Operators;
 
 namespace SharpSqlBuilder.Builders
@@ -51,6 +52,12 @@ namespace SharpSqlBuilder.Builders
         protected SqlUpdateBuilderBase Values(IEnumerable<SqlColumn> sqlColumns)
         {
             ColumnsBlock.AddRange(sqlColumns.Select(m => new UpdateColumnBlock(m)));
+            CurrentPosition = SqlUpdatePosition.Columns;
+            return this;
+        }
+        protected SqlUpdateBuilderBase Values(IEnumerable<KeyValuePair<SqlColumn, Operand>> implicitSets)
+        {
+            ColumnsBlock.AddRange(implicitSets.Select(pair => new UpdateColumnBlock(pair.Key, pair.Value)));
             CurrentPosition = SqlUpdatePosition.Columns;
             return this;
         }

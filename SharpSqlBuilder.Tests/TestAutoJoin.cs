@@ -13,7 +13,7 @@ using SharpSqlBuilder.Operators;
 namespace SharpSqlBuilder.Tests
 {
     [TestFixture]
-    public class TestAutoJoin
+    public class TestAutoJoin : BaseTest
     {
         [Table("class1", Schema = "foo")]
         public class Class1
@@ -23,13 +23,14 @@ namespace SharpSqlBuilder.Tests
             public Guid Id { get; set; }
         }
 
-      
+
 
         [Table("class2", Schema = "foo")]
         public class Class2
         {
             [Key] [Column("key")] public Guid Key { get; set; }
         }
+
         [Table("class3", Schema = "foo")]
         [NamingConvention(NamingConvention.SnakeCase)]
         public class Class3
@@ -38,10 +39,13 @@ namespace SharpSqlBuilder.Tests
             [Column("key1")]
             [ForeignKeyType(typeof(Class1))]
             public Guid Class1Id { get; set; }
+
             [ForeignKeyType(typeof(Class2))]
             [Column("key2")]
-            [Key] public Guid Class2Id { get; set; }
+            [Key]
+            public Guid Class2Id { get; set; }
         }
+
         [Table("class4", Schema = "foo")]
         public class Class4
         {
@@ -49,6 +53,7 @@ namespace SharpSqlBuilder.Tests
             [ForeignKeyType(typeof(Class1))]
             public Guid Id { get; set; }
         }
+
         [Test]
         public void Select_JoinViaFk1()
         {
@@ -66,6 +71,7 @@ namespace SharpSqlBuilder.Tests
             ";
             Check(expected, actual);
         }
+
         [Test]
         public void Select_JoinViaFk2()
         {
@@ -83,18 +89,15 @@ namespace SharpSqlBuilder.Tests
             ";
             Check(expected, actual);
         }
+
         [Test]
         public void Select_JoinViaThirdTable()
         {
             var table1 = new SqlTable<Class1>();
             var table2 = new SqlTable<Class2>();
             var table3 = new SqlTable<Class3>();
-          
-            var sqlBuilder = SqlBuilder.Select
-               .Star()
-               .From(table1)
-               .InnerJoin(table3)
-               .InnerJoin(table2);
+
+            var sqlBuilder = SqlBuilder.Select.Star().From(table1).InnerJoin(table3).InnerJoin(table2);
             var sqlOptions = new SqlOptions {Dialect = SqlDialect.Postgres95};
 
             var actual = sqlBuilder.BuildSql(sqlOptions);
@@ -106,17 +109,8 @@ namespace SharpSqlBuilder.Tests
             INNER JOIN foo.class2 ON class2.key = class3.key2
             ";
             Check(expected, actual);
-        }
-        
-        private void Check(string expected, string actual)
-        {
-            Diff.Text(expected, actual, Sql.Normalize);
-            Console.WriteLine("___________\nACTUAL\n");
-            Console.WriteLine(actual);
-            Console.WriteLine("___________\nEXPECTED\n");
-            Console.WriteLine(expected);
-            Assert.AreEqual(Sql.Normalize(expected), Sql.Normalize(actual));
-        }
-    }
 
+        }
+
+    }
 }

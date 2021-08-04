@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using SharpSqlBuilder.Maps;
+using SharpSqlBuilder.Operands;
 using SharpSqlBuilder.Operators;
 
 namespace SharpSqlBuilder.Builders
@@ -12,6 +13,7 @@ namespace SharpSqlBuilder.Builders
         {
         }
         public new TBuilder CustomSql(string customSql, SqlUpdatePosition? type = null) => (TBuilder)base.CustomSql(customSql, type);
+        protected new TBuilder Values(IEnumerable<KeyValuePair<SqlColumn, Operand>> implicitSets) => (TBuilder)base.Values(implicitSets);
         protected new TBuilder Values(IEnumerable<SqlColumn> sqlColumns) => (TBuilder)base.Values(sqlColumns);
         public new TBuilder AllUpdatableValues() => (TBuilder)base.AllUpdatableValues();
         protected new TBuilder Where(params Operator[] operators) => (TBuilder)base.Where(operators);

@@ -13,7 +13,7 @@ using SharpSqlBuilder.Operators;
 namespace SharpSqlBuilder.Tests
 {
     [TestFixture]
-    public class TestSqlBuilder
+    public class TestSqlBuilder : BaseTest
     {
         [Table("class1", Schema = "foo")]
         public class Class1
@@ -797,17 +797,6 @@ namespace SharpSqlBuilder.Tests
               class1.id ASC
             ";
             Check(expected, actual);
-        }
-
-
-        private void Check(string expected, string actual)
-        {
-            Diff.Text(expected, actual, Sql.Normalize);
-            Console.WriteLine("___________\nACTUAL\n");
-            Console.WriteLine(actual);
-            Console.WriteLine("___________\nEXPECTED\n");
-            Console.WriteLine(expected);
-            Assert.AreEqual(Sql.Normalize(expected), Sql.Normalize(actual));
         }
     }
 

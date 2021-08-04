@@ -5,7 +5,6 @@ using SharpSqlBuilder.Operands;
 
 namespace SharpSqlBuilder.Operands
 {
-
     /// <summary>
     /// <example>LOWER(...)</example>
     /// </summary>

@@ -15,10 +15,10 @@ namespace SharpSqlBuilder.Blocks
         public ColumnEntity ColumnName;
         public Operand PropertyName;
 
-        public UpdateColumnBlock(SqlColumn sqlColumn)
+        public UpdateColumnBlock(SqlColumn sqlColumn, Operand operand = null)
         {
             ColumnName = new ColumnEntity(sqlColumn ?? throw new ArgumentException(nameof(sqlColumn)));
-            PropertyName = sqlColumn.Property();
+            PropertyName = operand??sqlColumn.Property();
         }
 
         public override bool Present(SqlOptions sqlOptions) =>
