@@ -55,7 +55,7 @@ namespace SharpSqlBuilder.Builders
             CurrentPosition = SqlUpdatePosition.Columns;
             return this;
         }
-        protected SqlUpdateBuilderBase Values(IEnumerable<KeyValuePair<SqlColumn, Operand>> implicitSets)
+        protected SqlUpdateBuilderBase Values(IEnumerable<KeyValuePair<SqlColumn, IOperable>> implicitSets)
         {
             ColumnsBlock.AddRange(implicitSets.Select(pair => new UpdateColumnBlock(pair.Key, pair.Value)));
             CurrentPosition = SqlUpdatePosition.Columns;

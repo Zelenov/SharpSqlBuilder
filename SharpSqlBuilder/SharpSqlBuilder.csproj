@@ -6,7 +6,7 @@
     <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl />
     <PackageProjectUrl>https://github.com/Zelenov/SharpSqlBuilder</PackageProjectUrl>
-    <Version>0.10.1.0</Version>
+    <Version>0.10.2.0</Version>
     <Authors>Evgeny Zelenov</Authors>
     <Description>Multi-dialect sql builder with advanced mapping and custom extensions for Database-First applications.
 

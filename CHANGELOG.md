@@ -1,6 +1,10 @@
 # Changelog
 
-## 0.10.0
+## 0.10.2
+### Changed
+`Update.Values` `Operand` -> `IOperable`
+
+## 0.10.1
 ### Fixed
 `DELETE` now returns runnable sql 
 ### Added
