@@ -41,7 +41,7 @@ namespace SharpSqlBuilder.Tests
             });
             var table = new SqlTable<Class1>();
             var sqlBuilder = SqlBuilder.Update(table)
-               .Values(new Dictionary<SqlColumn, Operand>()
+               .Values(new Dictionary<SqlColumn, IOperable>
                 {
                     {table[t => t.Auto], filter[t => t.Auto].Coalesce(table[f => f.Auto])},
                     {table[t => t.DoNotChange], filter[t => t.DoNotChange].Coalesce(table[f => f.DoNotChange])}
