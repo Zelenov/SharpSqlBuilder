@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.11.0
+### Added
+Case Insensitive OrderMap
+`TryGetColumn` methods
+
 ## 0.10.2
 ### Changed
 `Update.Values` `Operand` -> `IOperable`

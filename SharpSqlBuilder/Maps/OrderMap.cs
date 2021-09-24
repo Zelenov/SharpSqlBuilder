@@ -15,15 +15,14 @@ namespace SharpSqlBuilder.Maps
 
         
         public OrderMap Append(SqlTable map, IEnumerable<NamedOrderItem> namedOrderItems,
-            bool throwOnMissingProperty = true)
+            bool throwOnMissingProperty = true, bool caseSensitive = true)
         {
             if (namedOrderItems == null)
                 return this;
 
             var setOrders = namedOrderItems.Where(x => x != null).Select(p =>
             {
-                var mapItem = map[p.PropertyName];
-                if (mapItem == null)
+                if (!map.TryGetColumn(p.PropertyName, out var mapItem, caseSensitive))
                     if (throwOnMissingProperty)
                         throw new ArgumentException($"Order property {p.PropertyName} have no counterpart in the map");
                     else
@@ -48,7 +47,8 @@ namespace SharpSqlBuilder.Maps
             Items.AddRange(orderItems);
             return this;
         }
-        public OrderMap Append(SqlTable map, object order)
+        public OrderMap Append(SqlTable map, object order,
+            bool throwOnMissingProperty = true, bool caseSensitive = true)
         {
             if (order == null)
                 return this;
@@ -59,10 +59,11 @@ namespace SharpSqlBuilder.Maps
             var entityProps = map;
             var setOrders = orderProps.Values.Select(p =>
             {
-                var mapItem = map[p.Name];
-                if (mapItem == null)
-                    throw new ArgumentException(
-                        $"Order property {p.Name} of type {mapType.Name} have no counterpart in the map");
+                if (!map.TryGetColumn(p.Name, out var mapItem, caseSensitive))
+                    if (throwOnMissingProperty)
+                        throw new ArgumentException($"Order property {p.Name} of type {mapType.Name} have no counterpart in the map");
+                    else
+                        return (null, null);
 
 
                 var orderItem = (OrderItem)p.GetValue(order);
@@ -74,9 +75,9 @@ namespace SharpSqlBuilder.Maps
             return Append(setOrders);
         }
         public static OrderMap Build(SqlTable map, IEnumerable<NamedOrderItem> namedOrderItems,
-            bool throwOnMissingProperty = true)
+            bool throwOnMissingProperty = true, bool caseSensitive = true)
         {
-            return new OrderMap().Append(map, namedOrderItems, throwOnMissingProperty);
+            return new OrderMap().Append(map, namedOrderItems, throwOnMissingProperty, caseSensitive);
         }
 
         public static OrderMap FromOrder<T>(SqlTable map, T order) where T : class

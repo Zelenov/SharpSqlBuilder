@@ -54,6 +54,10 @@ namespace SharpSqlBuilder.Maps
             ColumnsDictionary.Add(sqlColumn.PropertyName, sqlColumn);
             Columns.Add(sqlColumn);
         }
+        public bool TryGetColumn(string property, out SqlColumn value, bool caseSensitive = true)
+        {
+            return ColumnsDictionary.TryGetValue(property, caseSensitive, out value);
+        }
 
         protected IEnumerable<SqlColumn> GetColumns(Type type)
         {
@@ -73,5 +77,9 @@ namespace SharpSqlBuilder.Maps
         }
 
         public SqlColumn this[Expression<Func<T, object>> exp] => base[exp.GetPropertyInfo().Name];
+        public bool TryGetColumn(Expression<Func<T, object>> exp, out SqlColumn value)
+        {
+            return ColumnsDictionary.TryGetValue(exp.GetPropertyInfo().Name, out value);
+        }
     }
 }
